@@ -1,7 +1,7 @@
 {
   "factor": "distance_material",
   "condition": "distance_material/white_wall/distance_2",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_material\\white_wall\\distance_2",
+  "directory": "data/distance_material\\white_wall\\distance_2",
   "num_videos": 10,
   "mean_nte": 0.1250416286289692,
   "std_nte": 0.03136066358103527,

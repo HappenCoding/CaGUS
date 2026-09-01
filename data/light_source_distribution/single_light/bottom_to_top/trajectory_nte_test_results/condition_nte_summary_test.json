@@ -1,7 +1,7 @@
 {
   "factor": "light_source_distribution",
   "condition": "light_source_distribution/single_light/bottom_to_top",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\light_source_distribution\\single_light\\bottom_to_top",
+  "directory": "data/light_source_distribution\\single_light\\bottom_to_top",
   "num_videos": 10,
   "mean_nte": 0.38451344072818755,
   "std_nte": 0.013849273501094684,

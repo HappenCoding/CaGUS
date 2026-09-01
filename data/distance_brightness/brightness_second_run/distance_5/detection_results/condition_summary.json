@@ -99,5 +99,5 @@
     "condition": "distance_brightness/brightness_second_run/distance_5"
   },
   "selected_method": "highpass_topk",
-  "selected_plot": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_brightness\\brightness_second_run\\distance_5\\detection_results\\brightness_second_run_distance_5_highpass_topk_curves.png"
+  "selected_plot": "data/distance_brightness\\brightness_second_run\\distance_5\\detection_results\\brightness_second_run_distance_5_highpass_topk_curves.png"
 }

@@ -99,5 +99,5 @@
     "condition": "distance_brightness/brightness_3/distance_5"
   },
   "selected_method": "mean_removed_abs",
-  "selected_plot": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_brightness\\brightness3\\distance_5\\detection_results\\brightness3_distance_5_mean_removed_abs_curves.png"
+  "selected_plot": "data/distance_brightness\\brightness3\\distance_5\\detection_results\\brightness3_distance_5_mean_removed_abs_curves.png"
 }

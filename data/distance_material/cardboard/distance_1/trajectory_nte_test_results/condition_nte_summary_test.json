@@ -1,7 +1,7 @@
 {
   "factor": "distance_material",
   "condition": "distance_material/cardboard/distance_1",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_material\\cardboard\\distance_1",
+  "directory": "data/distance_material\\cardboard\\distance_1",
   "num_videos": 10,
   "mean_nte": 0.1144656091928482,
   "std_nte": 0.04008897196377214,

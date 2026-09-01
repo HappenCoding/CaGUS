@@ -1,7 +1,7 @@
 {
   "factor": "distance_material",
   "condition": "distance_material/foam_board/distance_2",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_material\\foam_board\\distance_2",
+  "directory": "data/distance_material\\foam_board\\distance_2",
   "num_videos": 10,
   "mean_nte": 0.2598804131150246,
   "std_nte": 0.03468871724174744,

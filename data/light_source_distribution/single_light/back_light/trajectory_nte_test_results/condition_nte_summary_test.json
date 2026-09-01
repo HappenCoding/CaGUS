@@ -1,7 +1,7 @@
 {
   "factor": "light_source_distribution",
   "condition": "light_source_distribution/single_light/back_light",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\light_source_distribution\\single_light\\back_light",
+  "directory": "data/light_source_distribution\\single_light\\back_light",
   "num_videos": 10,
   "mean_nte": 0.40891593396663667,
   "std_nte": 0.026860514054883735,

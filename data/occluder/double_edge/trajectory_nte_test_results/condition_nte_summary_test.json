@@ -1,7 +1,7 @@
 {
   "factor": "occluder",
   "condition": "occluder/double_edge",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\occluder\\double_edge",
+  "directory": "data/occluder\\double_edge",
   "num_videos": 10,
   "mean_nte": 0.20384494662284852,
   "std_nte": 0.04782558666394887,

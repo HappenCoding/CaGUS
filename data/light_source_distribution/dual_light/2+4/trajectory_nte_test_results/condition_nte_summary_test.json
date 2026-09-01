@@ -1,7 +1,7 @@
 {
   "factor": "light_source_distribution",
   "condition": "light_source_distribution/dual_light/2+4",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\light_source_distribution\\dual_light\\2+4",
+  "directory": "data/light_source_distribution\\dual_light\\2+4",
   "num_videos": 10,
   "mean_nte": 0.4353083997964859,
   "std_nte": 0.027891184324274624,

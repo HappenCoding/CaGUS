@@ -1,7 +1,7 @@
 {
   "factor": "layout",
   "condition": "layout/sparse_front",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\layout\\sparse_front",
+  "directory": "data/layout\\sparse_front",
   "num_videos": 10,
   "mean_nte": 0.0878858894109726,
   "std_nte": 0.017844739154554465,

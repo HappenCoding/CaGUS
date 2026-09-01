@@ -1,7 +1,7 @@
 {
   "factor": "material",
   "condition": "material/foam_board",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\material\\foam_board",
+  "directory": "data/material\\foam_board",
   "num_videos": 10,
   "mean_nte": 0.12771589681506157,
   "std_nte": 0.03610669558185184,

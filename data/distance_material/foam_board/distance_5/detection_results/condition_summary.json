@@ -99,5 +99,5 @@
     "condition": "distance_material/foam_board/distance_5"
   },
   "selected_method": "highpass_abs",
-  "selected_plot": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_material\\foam_board\\distance_5\\detection_results\\foam_board_distance_5_highpass_abs_curves.png"
+  "selected_plot": "data/distance_material\\foam_board\\distance_5\\detection_results\\foam_board_distance_5_highpass_abs_curves.png"
 }

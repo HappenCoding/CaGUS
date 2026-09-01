@@ -99,5 +99,5 @@
     "condition": "test/angle_test"
   },
   "selected_method": "mean_removed_abs",
-  "selected_plot": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\test\\angle_test\\detection_results\\angle_test_mean_removed_abs_curves.png"
+  "selected_plot": "data/test\\angle_test\\detection_results\\angle_test_mean_removed_abs_curves.png"
 }

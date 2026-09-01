@@ -1,7 +1,7 @@
 {
   "factor": "occluder",
   "condition": "occluder/single_edge",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\occluder\\single_edge",
+  "directory": "data/occluder\\single_edge",
   "num_videos": 10,
   "mean_nte": 0.15395771563053132,
   "std_nte": 0.06125216680402126,

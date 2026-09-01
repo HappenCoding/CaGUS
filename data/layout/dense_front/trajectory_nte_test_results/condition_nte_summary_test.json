@@ -1,7 +1,7 @@
 {
   "factor": "layout",
   "condition": "layout/dense_front",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\layout\\dense_front",
+  "directory": "data/layout\\dense_front",
   "num_videos": 10,
   "mean_nte": 0.1051753468811512,
   "std_nte": 0.022834624759326905,

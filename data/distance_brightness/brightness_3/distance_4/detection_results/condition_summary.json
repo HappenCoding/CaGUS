@@ -99,5 +99,5 @@
     "condition": "distance_brightness/brightness_3/distance_4"
   },
   "selected_method": "highpass_abs",
-  "selected_plot": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_brightness\\brightness3\\distance_4\\detection_results\\brightness3_distance_4_highpass_abs_curves.png"
+  "selected_plot": "data/distance_brightness\\brightness3\\distance_4\\detection_results\\brightness3_distance_4_highpass_abs_curves.png"
 }

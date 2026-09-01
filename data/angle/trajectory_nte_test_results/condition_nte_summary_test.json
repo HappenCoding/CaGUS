@@ -1,7 +1,7 @@
 {
   "factor": "angle",
   "condition": "angle",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\angle",
+  "directory": "data/angle",
   "num_videos": 10,
   "mean_nte": 0.3537493392825127,
   "std_nte": 0.07013413837777031,

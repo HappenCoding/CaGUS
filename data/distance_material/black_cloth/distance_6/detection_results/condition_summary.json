@@ -99,5 +99,5 @@
     "condition": "distance_material/black_cloth/distance_6"
   },
   "selected_method": "highpass_topk",
-  "selected_plot": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_material\\black_cloth\\distance_6\\detection_results\\black_cloth_distance_6_highpass_topk_curves.png"
+  "selected_plot": "data/distance_material\\black_cloth\\distance_6\\detection_results\\black_cloth_distance_6_highpass_topk_curves.png"
 }

@@ -99,5 +99,5 @@
     "condition": "distance_material/white_wall/distance_6"
   },
   "selected_method": "highpass_abs",
-  "selected_plot": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_material\\white_wall\\distance_6\\detection_results\\white_wall_distance_6_highpass_abs_curves.png"
+  "selected_plot": "data/distance_material\\white_wall\\distance_6\\detection_results\\white_wall_distance_6_highpass_abs_curves.png"
 }

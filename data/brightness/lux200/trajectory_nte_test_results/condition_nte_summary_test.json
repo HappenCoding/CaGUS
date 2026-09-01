@@ -1,7 +1,7 @@
 {
   "factor": "brightness",
   "condition": "brightness/lux200",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\brightness\\lux200",
+  "directory": "data/brightness\\lux200",
   "num_videos": 10,
   "mean_nte": 0.23588150292634963,
   "std_nte": 0.13758844446721422,

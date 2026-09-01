@@ -1,7 +1,7 @@
 {
   "factor": "material",
   "condition": "material/wood_board",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\material\\wood_board",
+  "directory": "data/material\\wood_board",
   "num_videos": 10,
   "mean_nte": 0.17331497222185135,
   "std_nte": 0.04488022598658191,

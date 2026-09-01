@@ -1,7 +1,7 @@
 {
   "factor": "brightness_second_run",
   "condition": "brightness_second_run/lux300",
-  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\brightness_second_run\\lux300",
+  "directory": "data/brightness_second_run\\lux300",
   "num_videos": 10,
   "mean_nte": 0.21544722765684127,
   "std_nte": 0.14949680595609335,
