@@ -1,4 +1,5 @@
 name: Deploy Showcase
+# GitHub Pages deployment for the static reviewer showcase.
 
 on:
   push:
