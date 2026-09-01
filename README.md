@@ -6,6 +6,28 @@ This repository accompanies the CaGUS experimental artifact for passive sensing 
 
 The showcase is the quickest way to inspect representative experimental videos, differential response curves, capability-space summaries, and geometry-conditioned activity examples.
 
+## Showcase Preview
+
+The following accelerated recordings preview the interactive showcase directly in the repository.
+
+### 1. Experimental Setup
+
+![Experimental setup preview](showcase/assets/readme-preview/preview_01.gif)
+
+### 2. Discrete Localization
+
+![Discrete localization preview](showcase/assets/readme-preview/preview_02.gif)
+
+### 3. Continuous Tracking
+
+![Continuous tracking preview](showcase/assets/readme-preview/preview_03.gif)
+
+### 4. Capability-Space Modeling
+
+![Capability-space modeling preview](showcase/assets/readme-preview/preview_04.gif)
+
+If the interactive link is unavailable in an anonymous repository mirror, download the [`showcase/`](showcase/) directory with its assets and open `showcase/index.html` locally in a modern browser.
+
 ## What Is Included
 
 | Component | Contents |
