@@ -1,0 +1,10 @@
+{
+  "factor": "distance_layout",
+  "condition": "distance_layout/dense_back/distance_5",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_layout\\dense_back\\distance_5",
+  "num_videos": 10,
+  "mean_nte": 0.30911140888929367,
+  "std_nte": 0.07018199962161895,
+  "min_nte": 0.12622348964214325,
+  "max_nte": 0.39980947971343994
+}

@@ -1,0 +1,10 @@
+{
+  "factor": "distance",
+  "condition": "distance/350",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance\\350",
+  "num_videos": 10,
+  "mean_nte": 0.23471386283636092,
+  "std_nte": 0.018381725566713566,
+  "min_nte": 0.20433302223682404,
+  "max_nte": 0.27624818682670593
+}

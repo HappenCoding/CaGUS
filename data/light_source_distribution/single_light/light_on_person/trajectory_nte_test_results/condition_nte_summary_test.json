@@ -1,0 +1,10 @@
+{
+  "factor": "light_source_distribution",
+  "condition": "light_source_distribution/single_light/light_on_person",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\light_source_distribution\\single_light\\light_on_person",
+  "num_videos": 10,
+  "mean_nte": 0.4138870120048523,
+  "std_nte": 0.04049280444844431,
+  "min_nte": 0.3539305031299591,
+  "max_nte": 0.4893840253353119
+}

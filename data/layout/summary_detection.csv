@@ -1,0 +1,8 @@
+condition,detected,total,rate,mean_snr_db
+dense_back,,,,
+dense_front,,,,
+dense_uniform,,,,
+empty,,,,
+sparse_back,,,,
+sparse_front,,,,
+sparse_uniform,,,,

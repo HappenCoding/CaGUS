@@ -1,0 +1,10 @@
+{
+  "factor": "material",
+  "condition": "material/wall",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\material\\wall",
+  "num_videos": 10,
+  "mean_nte": 0.2473768934607506,
+  "std_nte": 0.10774770110533102,
+  "min_nte": 0.06291358172893524,
+  "max_nte": 0.3870413899421692
+}

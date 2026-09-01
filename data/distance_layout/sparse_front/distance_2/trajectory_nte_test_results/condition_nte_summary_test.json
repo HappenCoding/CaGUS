@@ -1,0 +1,10 @@
+{
+  "factor": "distance_layout",
+  "condition": "distance_layout/sparse_front/distance_2",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_layout\\sparse_front\\distance_2",
+  "num_videos": 10,
+  "mean_nte": 0.124741280823946,
+  "std_nte": 0.0346209310164677,
+  "min_nte": 0.07632070779800415,
+  "max_nte": 0.18950094282627106
+}

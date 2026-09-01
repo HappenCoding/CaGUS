@@ -1,0 +1,10 @@
+{
+  "factor": "distance_angle",
+  "condition": "distance_angle/angle_180_360/distance_2",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_angle\\angle_180_360\\distance_2",
+  "num_videos": 10,
+  "mean_nte": 0.4991904556751251,
+  "std_nte": 0.010513906240842764,
+  "min_nte": 0.4791482985019684,
+  "max_nte": 0.5181451439857483
+}

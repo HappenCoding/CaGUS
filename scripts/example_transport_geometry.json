@@ -1,0 +1,14 @@
+{
+  "wall_bounds_xz": [1.33, 1.99, 0.46, 1.12],
+  "hidden_bounds_xz": [0.0, 1.08, 0.0, 2.0],
+  "wall_grid": [48, 48],
+  "hidden_grid": [32, 40],
+  "wall_reflectance": 1.0,
+  "attenuation_power": 2.0,
+  "occluders": [
+    {
+      "start": [0.86, 0.75],
+      "end": [1.38, 0.75]
+    }
+  ]
+}

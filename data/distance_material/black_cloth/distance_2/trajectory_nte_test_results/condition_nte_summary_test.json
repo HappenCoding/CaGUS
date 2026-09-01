@@ -1,0 +1,10 @@
+{
+  "factor": "distance_material",
+  "condition": "distance_material/black_cloth/distance_2",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_material\\black_cloth\\distance_2",
+  "num_videos": 10,
+  "mean_nte": 0.1683066740632057,
+  "std_nte": 0.06287503599131682,
+  "min_nte": 0.09123663604259491,
+  "max_nte": 0.29662299156188965
+}

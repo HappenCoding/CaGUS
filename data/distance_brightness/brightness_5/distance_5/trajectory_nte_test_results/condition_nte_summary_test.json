@@ -1,0 +1,10 @@
+{
+  "factor": "distance_brightness",
+  "condition": "distance_brightness/brightness_5/distance_5",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_brightness\\brightness5\\distance_5",
+  "num_videos": 10,
+  "mean_nte": 0.34146733283996583,
+  "std_nte": 0.06953584869665627,
+  "min_nte": 0.25572827458381653,
+  "max_nte": 0.5178601741790771
+}

@@ -1,0 +1,10 @@
+{
+  "factor": "layout",
+  "condition": "layout/sparse_uniform",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\layout\\sparse_uniform",
+  "num_videos": 10,
+  "mean_nte": 0.12492592558264733,
+  "std_nte": 0.0321505454224829,
+  "min_nte": 0.07674142718315125,
+  "max_nte": 0.19071856141090393
+}

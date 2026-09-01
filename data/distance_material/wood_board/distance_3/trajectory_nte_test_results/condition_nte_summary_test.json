@@ -1,0 +1,10 @@
+{
+  "factor": "distance_material",
+  "condition": "distance_material/wood_board/distance_3",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\distance_material\\wood_board\\distance_3",
+  "num_videos": 10,
+  "mean_nte": 0.09080586060881615,
+  "std_nte": 0.03173737092224213,
+  "min_nte": 0.05854768306016922,
+  "max_nte": 0.16403046250343323
+}

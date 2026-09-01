@@ -1,0 +1,10 @@
+{
+  "factor": "light_source_distribution",
+  "condition": "light_source_distribution/single_light/wall_right_lit",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\light_source_distribution\\single_light\\wall_right_lit",
+  "num_videos": 10,
+  "mean_nte": 0.3422347128391266,
+  "std_nte": 0.015479779028771418,
+  "min_nte": 0.3232835829257965,
+  "max_nte": 0.3595934510231018
+}

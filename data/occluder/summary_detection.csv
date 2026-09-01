@@ -1,0 +1,4 @@
+condition,detected,total,rate,mean_snr_db
+double_edge,,,,
+multi_edge,,,,
+single_edge,,,,

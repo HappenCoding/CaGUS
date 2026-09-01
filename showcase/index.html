@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passive Non-Line-of-Sight Sensing and Capability Space Modeling via Ambient Light Transport</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- OrbitControls for smooth 360° free rotation and damping -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .main-card { background-color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; border-radius: 0.75rem; }
+        .module-header { border-bottom: 1px solid #f1f5f9; padding-bottom: 0.75rem; margin-bottom: 1.25rem; }
+        .caption { text-align: center; color: #64748b; font-size: 0.8125rem; margin-top: 0.5rem; margin-bottom: 1.25rem; }
+        .sync-block { background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.25rem; border-radius: 0.625rem; margin-bottom: 1.5rem; }
+        .canvas-box { background: white; border: 1px solid #cbd5e1; border-radius: 0.375rem; display: block; margin: 0 auto; }
+        .video-box { width: 100%; border-radius: 0.375rem; border: 1px solid #cbd5e1; background: #000; }
+        .radar-card { background: white; border: 1px solid #e2e8f0; border-radius: 0.625rem; transition: border-color 0.2s, box-shadow 0.2s; }
+        .radar-card:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .nav-link { transition: all 0.15s ease; }
+        .nav-link.active { background-color: #0f172a; color: #ffffff; }
+        
+        /* 3D Viewport Styling */
+        .viewport-3d-glow {
+            background: #090e1a;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.65);
+        }
+        .hud-badge {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        /* Pure Geometric Reticle */
+        .micro-reticle {
+            pointer-events: none;
+            position: absolute;
+            inset: 20px;
+            border: 1px dashed rgba(56, 189, 248, 0.25);
+            transition: opacity 0.35s ease;
+        }
+        .micro-reticle::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; width: 12px; height: 12px;
+            border-top: 2px solid #38bdf8; border-left: 2px solid #38bdf8;
+        }
+        .micro-reticle::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; right: -2px; width: 12px; height: 12px;
+            border-bottom: 2px solid #38bdf8; border-right: 2px solid #38bdf8;
+        }
+    </style>
+    <script src="./assets/trajectory_data.js"></script>
+    <script src="./assets/rough_data.js"></script>
+</head>
+<body class="antialiased text-slate-800">
+
+<!-- Sticky Top Navbar -->
+<nav class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap justify-between items-center">
+        <div class="flex items-center space-x-2.5">
+            <div class="w-2.5 h-2.5 rounded-full bg-blue-600"></div>
+            <div class="font-semibold text-slate-900 text-sm md:text-base tracking-tight">
+                Ambient Light Transport <span class="text-slate-400 font-normal">|</span> <span class="text-blue-700 font-normal text-xs md:text-sm">Passive NLOS Sensing Research Showcase</span>
+            </div>
+        </div>
+        <div class="flex space-x-1 text-xs md:text-sm font-medium mt-2 md:mt-0" id="nav-tabs">
+            <a href="#section-overview" class="nav-link px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900 active">1. Overview & Setup</a>
+            <a href="#section-localization" class="nav-link px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900">2. NLOS Localization System</a>
+            <a href="#section-capability" class="nav-link px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900">3. Capability Space Model</a>
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-6xl mx-auto px-4 my-8 space-y-8">
+
+    <!-- Header Section -->
+    <header class="text-center py-4">
+        <div class="inline-flex items-center space-x-2 px-2.5 py-0.5 bg-slate-100 text-slate-700 rounded text-xs font-mono tracking-wider mb-3 border border-slate-200">
+            <span>RESEARCH ARTICLE SHOWCASE</span>
+            <span>/</span>
+            <span>NON-LINE-OF-SIGHT SENSING</span>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-tight mb-2">
+            Passive Non-Line-of-Sight Sensing and Capability Space Modeling via Ambient Light Transport
+        </h1>
+        <p class="text-sm md:text-base text-slate-500 max-w-3xl mx-auto font-sans">
+            Continuous Trajectory Tracking and 3D Sensing Boundary Exploration via Secondary Diffuse Light Variations
+        </p>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- Section 1: Overview & Experimental Setup -->
+    <!-- ========================================================================= -->
+    <section id="section-overview" class="main-card p-6 md:p-7 scroll-mt-20">
+        <div class="module-header flex items-center justify-between">
+            <div>
+                <h2 class="text-lg md:text-xl font-bold text-slate-900">1. Overview & Experimental Setup</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Physical ambient light transport principles and lab configuration</p>
+            </div>
+            <span class="px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded text-xs font-mono border border-slate-200">Section 1</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+            <div class="md:col-span-6">
+                <img src="./assets/room_layout.png" alt="Experimental room layout" class="rounded border border-slate-200 shadow-sm w-full h-auto">
+                <div class="caption mt-2 mb-0">Figure 1: Top view of experimental layout, occluder geometry, and camera Field of View (FOV).</div>
+            </div>
+            <div class="md:col-span-6 space-y-3.5 text-slate-700 leading-relaxed text-justify text-xs md:text-sm">
+                <p>
+                    <strong>Physical Sensing Principle:</strong> Motion of occluded human subjects or objects within the non-line-of-sight region periodically modulates indirect light transport paths from ambient illumination, casting subtle secondary diffuse reflections onto visible boundary surfaces that remain imperceptible to the naked eye.
+                </p>
+                <p>
+                    <strong>Experimental Configuration:</strong> Experiments are conducted around a conference table measuring <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-800 font-mono">4.85 m × 3.45 m</code>. Human subjects traverse clockwise (CW) or counter-clockwise (CCW) along the perimeter and pause at four distinct corners (L1–L4). The system employs a single passive, fixed-FOV industrial camera pointed at a blank wall, achieving continuous NLOS tracking without active optical or RF emitters.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- Section 2: Pillar 1 - Passive NLOS Localization System -->
+    <!-- ========================================================================= -->
+    <section id="section-localization" class="main-card p-6 md:p-7 scroll-mt-20">
+        <div class="module-header flex items-center justify-between">
+            <div>
+                <h2 class="text-lg md:text-xl font-bold text-slate-900">2. Passive NLOS Localization System</h2>
+                <p class="text-xs text-slate-500 mt-0.5">From coarse-grained state classification to high-fidelity continuous trajectory tracking</p>
+            </div>
+            <span class="px-2.5 py-0.5 bg-blue-50 text-blue-700 rounded text-xs font-mono border border-blue-100">Pillar 1: System</span>
+        </div>
+
+        <!-- 2.1 Coarse-Grained State Classification -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-2 mb-2">
+                <h3 class="text-base font-bold text-slate-800">2.1 Coarse-Grained State Classification (Rough Localization)</h3>
+                <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono">KNN State Machine</span>
+            </div>
+            <p class="mb-3 text-xs md:text-sm text-slate-600 leading-relaxed">
+                Utilizing a lightweight KNN classifier, the system determines the discrete location state (four stationary corners L1–L4 or four traversal segments) in real time from weak diffuse shadow variations.
+            </p>
+
+            <!-- Rough - Clockwise -->
+            <div class="sync-block shadow-sm">
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="text-sm font-bold text-slate-800">Clockwise Classification Test (IMG_0734)</h4>
+                    <button id="btn_rough_cw" class="bg-blue-700 text-white px-4 py-1 rounded text-xs font-medium hover:bg-blue-600 transition shadow-sm">Play Sync Animation</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div><div class="font-medium text-slate-700 text-xs mb-1.5">Input Video (FOV)</div><video id="vid_rough_cw" src="./assets/cw_video.mp4" class="video-box h-44 md:h-48 object-cover" preload="metadata" muted playsinline></video></div>
+                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Ground Truth State</div><canvas id="cvs_gt_rough_cw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Predicted State</div><canvas id="cvs_pred_rough_cw" width="300" height="230" class="canvas-box"></canvas></div>
+                </div>
+                <div class="mt-4 border-t border-slate-200 pt-2.5">
+                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Timeline State Matching Summary</div>
+                    <img src="./assets/rough_plot_cw.png" alt="Clockwise Rough localization timeline summary" class="w-full h-auto rounded border border-slate-200 shadow-sm">
+                </div>
+            </div>
+
+            <!-- Rough - Counter-Clockwise -->
+            <div class="sync-block shadow-sm">
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="text-sm font-bold text-slate-800">Counter-Clockwise Classification Test (IMG_0724)</h4>
+                    <button id="btn_rough_ccw" class="bg-blue-700 text-white px-4 py-1 rounded text-xs font-medium hover:bg-blue-600 transition shadow-sm">Play Sync Animation</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div><div class="font-medium text-slate-700 text-xs mb-1.5">Input Video (FOV)</div><video id="vid_rough_ccw" src="./assets/ccw_video.mp4" class="video-box h-44 md:h-48 object-cover" preload="metadata" muted playsinline></video></div>
+                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Ground Truth State</div><canvas id="cvs_gt_rough_ccw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Predicted State</div><canvas id="cvs_pred_rough_ccw" width="300" height="230" class="canvas-box"></canvas></div>
+                </div>
+                <div class="mt-4 border-t border-slate-200 pt-2.5">
+                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Timeline State Matching Summary</div>
+                    <img src="./assets/rough_plot_ccw.png" alt="Counter-Clockwise Rough localization timeline summary" class="w-full h-auto rounded border border-slate-200 shadow-sm">
+                </div>
+            </div>
+        </div>
+
+        <!-- 2.2 Fine-Grained Trajectory Tracking -->
+        <div>
+            <div class="flex items-center space-x-2 mb-2">
+                <h3 class="text-base font-bold text-slate-800">2.2 Fine-Grained Continuous Trajectory Tracking</h3>
+                <span class="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-mono">Regression Model & 2D Coordinates</span>
+            </div>
+            <p class="mb-3 text-xs md:text-sm text-slate-600 leading-relaxed">
+                Upgraded to continuous regression mapping, the model directly yields continuous physical 2D coordinates (X, Y), reconstructing smooth and accurate human locomotion trajectories.
+            </p>
+
+            <!-- Fine - Clockwise -->
+            <div class="sync-block shadow-sm">
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="text-sm font-bold text-slate-800">Clockwise Trajectory Tracking (IMG_0734)</h4>
+                    <button id="btn_cw" class="bg-blue-700 text-white px-4 py-1 rounded text-xs font-medium hover:bg-blue-600 transition shadow-sm">Play Sync Animation</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div><div class="font-medium text-slate-700 text-xs mb-1.5">Input Video (FOV)</div><video id="vid_cw" src="./assets/cw_video.mp4" class="video-box h-44 md:h-48 object-cover" preload="metadata" muted playsinline></video></div>
+                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Ground Truth Trajectory</div><canvas id="cvs_gt_cw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Predicted Trajectory</div><canvas id="cvs_pred_cw" width="300" height="230" class="canvas-box"></canvas></div>
+                </div>
+                <div class="mt-4 border-t border-slate-200 pt-2.5">
+                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Continuous Tracking Error Analysis & Metrics</div>
+                    <img src="./assets/fine_plot_cw.png" alt="Clockwise Fine-grained tracking error summary" class="w-full h-auto rounded border border-slate-200 shadow-sm bg-white p-2">
+                </div>
+            </div>
+
+            <!-- Fine - Counter-Clockwise -->
+            <div class="sync-block shadow-sm">
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="text-sm font-bold text-slate-800">Counter-Clockwise Trajectory Tracking (IMG_0724)</h4>
+                    <button id="btn_ccw" class="bg-blue-700 text-white px-4 py-1 rounded text-xs font-medium hover:bg-blue-600 transition shadow-sm">Play Sync Animation</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div><div class="font-medium text-slate-700 text-xs mb-1.5">Input Video (FOV)</div><video id="vid_ccw" src="./assets/ccw_video.mp4" class="video-box h-44 md:h-48 object-cover" preload="metadata" muted playsinline></video></div>
+                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Ground Truth Trajectory</div><canvas id="cvs_gt_ccw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Predicted Trajectory</div><canvas id="cvs_pred_ccw" width="300" height="230" class="canvas-box"></canvas></div>
+                </div>
+                <div class="mt-4 border-t border-slate-200 pt-2.5">
+                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Continuous Tracking Error Analysis & Metrics</div>
+                    <img src="./assets/fine_plot_ccw.png" alt="Counter-Clockwise Fine-grained tracking error summary" class="w-full h-auto rounded border border-slate-200 shadow-sm bg-white p-2">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- Section 3: Pillar 2 - Multi-Factor Sensing Capability Space Model -->
+    <!-- ========================================================================= -->
+    <section id="section-capability" class="main-card p-6 md:p-7 scroll-mt-20 space-y-6">
+        
+        <!-- Module Header -->
+        <div class="module-header flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h2 class="text-lg md:text-xl font-bold text-slate-900">3. Multi-Factor Sensing Capability Space Model</h2>
+                <p class="text-xs text-slate-500 mt-0.5">3D capability manifold boundaries and discrete sample point cloud governed by coupled geometry, illumination, and materials</p>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="hidden md:inline px-2.5 py-0.5 bg-emerald-50 text-emerald-700 rounded text-xs font-mono border border-emerald-200">Pillar 2: Theory & Space</span>
+                <div class="flex space-x-1 text-xs">
+                    <button id="btn_view_interactive" class="px-3 py-1.5 bg-slate-900 text-white rounded font-medium shadow-sm hover:bg-slate-800 transition">3D Point Cloud Lab</button>
+                    <button id="btn_view_static" class="px-3 py-1.5 bg-slate-100 text-slate-700 rounded font-medium hover:bg-slate-200 transition">Publication Figure</button>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-xs md:text-sm text-slate-700 leading-relaxed text-justify">
+            The operational boundary of passive non-line-of-sight sensing is not a rigid distance cutoff, but rather a multi-dimensional capability manifold governed by the joint coupling of <strong>Transport Geometry</strong>, <strong>Illumination</strong>, and <strong>Surface Materials</strong>. The interactive 3D model below renders the physical space using a <strong>discrete physical sample point cloud</strong> (3,136 sample points) and <strong>dual semi-transparent bounding manifold envelopes</strong>.
+        </p>
+
+        <!-- ----------------------------------------------------------------- -->
+        <!-- [Row 1]: 3D WebGL Space (720px Height with High-Speed Smooth Zoom) -->
+        <!-- ----------------------------------------------------------------- -->
+        <div class="w-full">
+            <div class="flex flex-wrap items-center justify-between mb-2.5 gap-2">
+                <h3 class="text-sm md:text-base font-bold text-slate-900">3.1 3D Discrete Point Cloud & Sensing Capability Manifold</h3>
+                <div class="text-xs text-slate-500 font-mono">
+                    Controls: Left Click + Drag to Orbit / Wheel to Zoom / Click Point to Focus
+                </div>
+            </div>
+
+            <!-- Mode 1: 3D Interactive Main Viewport -->
+            <div id="container_interactive_model" class="w-full relative rounded-xl overflow-hidden viewport-3d-glow border border-slate-700/80 shadow-2xl flex flex-col justify-between" style="min-height: 720px; height: 720px;">
+                
+                <!-- Micro Reticle Overlay -->
+                <div id="micro_reticle_overlay" class="micro-reticle opacity-0"></div>
+
+                <!-- Top Status Bar & Axis Indicators -->
+                <div class="absolute top-4 left-4 right-4 z-10 flex flex-wrap justify-between items-center gap-3 pointer-events-none">
+                    
+                    <!-- Left: Mode & Zoom Status -->
+                    <div class="hud-badge text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center space-x-2.5 shadow pointer-events-auto">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        <span class="font-semibold text-emerald-400 tracking-wide" id="hud_mode_title">MACRO OVERVIEW</span>
+                        <span class="text-slate-500">|</span>
+                        <span class="text-sky-300 font-semibold" id="hud_zoom_scale">SCALE: 1.00x</span>
+                        <span class="text-slate-500 hidden sm:inline">|</span>
+                        <span class="text-slate-400 text-[11px] hidden sm:inline">Z-UP ORBIT</span>
+                    </div>
+
+                    <!-- Right: Axis Indicator Badges -->
+                    <div class="hud-badge text-white px-3.5 py-1.5 rounded-lg text-xs font-mono flex items-center space-x-3.5 shadow pointer-events-auto">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+                            <span class="text-orange-300">X: Transport Geometry (g)</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+                            <span class="text-teal-300">Y: Illumination (i)</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                            <span class="text-purple-300">Z: Activity Level (a)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Three.js Canvas Mount Point -->
+                <div id="threejs_viewport" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+
+                <!-- Hover Point Inspector HUD -->
+                <div id="hud_hover_probe" class="absolute top-16 left-4 hud-badge text-white px-3.5 py-2.5 rounded-lg text-xs font-mono space-y-1 shadow-2xl pointer-events-none transition-all duration-150 border-l-2 border-l-emerald-400 max-w-[310px]">
+                    <div class="text-[11px] text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                        <span>Selected Point Inspector</span>
+                        <span id="probe_badge" class="px-1.5 py-0.2 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-semibold">LIVE POINT</span>
+                    </div>
+                    <div class="text-emerald-300 font-semibold text-xs" id="probe_coords">g = 0.50 | i = 0.50 | a = 0.50</div>
+                    <div class="text-amber-300 text-xs" id="probe_value">Capability Score: 52.4% | Transition Void Zone</div>
+                    <div class="text-[11px] text-slate-400" id="probe_desc">3D projection drop lines locked to target sample node</div>
+                </div>
+
+                <!-- Right: Viridis Gradient Colorbar -->
+                <div class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-center space-y-1.5 z-10 hud-badge px-2 py-3 rounded-lg pointer-events-auto shadow-xl">
+                    <span class="text-[10px] font-mono text-yellow-300 font-bold">1.0</span>
+                    <div class="w-3.5 h-44 rounded-sm border border-slate-600" style="background: linear-gradient(to top, #440154, #443a83, #31688e, #21908d, #35b779, #8fd744, #fde725);"></div>
+                    <span class="text-[10px] font-mono text-purple-300 font-bold">0.0</span>
+                    <span class="text-[9px] font-mono text-slate-300 mt-1 [writing-mode:vertical-lr] tracking-widest">Scalar C(g,i,a)</span>
+                </div>
+
+                <!-- Bottom Floating Control Deck -->
+                <div class="absolute bottom-4 left-4 right-4 z-10 flex flex-wrap items-center justify-center gap-2 pointer-events-auto">
+                    <div class="flex flex-wrap items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-lg border border-slate-700/80 shadow-2xl">
+                        <!-- Auto Orbit Toggle -->
+                        <button id="btn_toggle_spin" class="px-2.5 py-1 rounded text-xs font-medium bg-slate-800 text-white hover:bg-slate-700 transition">
+                            <span id="spin_text">Pause Orbit</span>
+                        </button>
+                        <span class="text-slate-700">|</span>
+                        
+                        <!-- Canonical Viewpoints -->
+                        <button id="btn_reset_cam" class="px-2.5 py-1 rounded text-xs font-medium bg-emerald-700/40 text-emerald-200 hover:bg-emerald-700/60 transition border border-emerald-600/50" title="Reset to Paper Standard Isometric (Elev 25°, Azim 45°)">
+                            Isometric (20°/45°)
+                        </button>
+
+                        <button id="btn_front_view" class="px-2 py-1 rounded text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition" title="Align to Front Orthogonal (g-a Plane)">
+                            Front (g-a)
+                        </button>
+
+                        <button id="btn_top_view" class="px-2 py-1 rounded text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition" title="Align to Top Orthogonal (g-i Plane)">
+                            Top (g-i)
+                        </button>
+
+                        <button id="btn_side_view" class="px-2 py-1 rounded text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition hidden md:inline-block" title="Align to Side Orthogonal (i-a Plane)">
+                            Side (i-a)
+                        </button>
+
+                        <span class="text-slate-700">|</span>
+
+                        <!-- Multi-Scale Zoom Controls -->
+                        <button id="btn_toggle_micro" class="px-2.5 py-1 rounded text-xs font-medium bg-sky-600/30 text-sky-200 hover:bg-sky-600/50 transition">
+                            <span id="micro_btn_text">Micro View</span>
+                        </button>
+                        <button id="btn_zoom_in" class="px-2.5 py-1 rounded text-xs font-semibold text-sky-300 hover:bg-slate-800 transition" title="Step Zoom In (+40%)">+</button>
+                        <button id="btn_zoom_out" class="px-2.5 py-1 rounded text-xs font-semibold text-sky-300 hover:bg-slate-800 transition" title="Step Zoom Out (-30%)">-</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mode 2: Static Publication-Quality Vector Render (Toggleable) -->
+            <div id="container_static_model" class="hidden w-full bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+                <img src="./assets/capability_boundary_model.png" alt="Multi-factor capability space model publication figure" class="w-full h-auto rounded">
+            </div>
+            
+            <div class="caption mt-2.5 mb-0">Figure 4: 3D discrete sampling point cloud and dual-manifold sensing capability model under ambient light transport (supports 360° spherical orbit, multi-scale zoom, and canonical orthogonal alignments).</div>
+        </div>
+
+        <!-- ----------------------------------------------------------------- -->
+        <!-- [Row 2]: Sub-Factor SNR Spread Radars -->
+        <!-- ----------------------------------------------------------------- -->
+        <div class="w-full bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div class="flex flex-wrap items-center justify-between border-b border-slate-100 pb-2.5 gap-2">
+                <h3 class="text-sm md:text-base font-bold text-slate-900">3.2 Sub-Factor SNR Spread & Sensitivity Radars</h3>
+                <span class="text-xs text-slate-500 font-mono bg-slate-50 px-2 py-0.5 rounded border border-slate-200">Normalized Sensitivity Spread: max(SNR) &minus; min(SNR)</span>
+            </div>
+
+            <!-- Three Radar Charts Arranged in a Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-center py-1">
+                <!-- 1. Transport Geometry Radar -->
+                <div class="flex flex-col items-center text-center p-3.5 bg-orange-50/30 rounded-lg border border-orange-100">
+                    <div class="text-xs md:text-sm font-bold text-orange-900 mb-0.5">Transport geometry</div>
+                    <p class="text-xs text-slate-500 mb-2">Angular &bull; Layout &bull; Distance</p>
+                    <svg id="svg_radar_geom" viewBox="-160 -115 320 230" class="w-full max-w-[240px] h-auto overflow-visible"></svg>
+                    <div class="mt-2 text-xs font-mono font-semibold text-orange-800 bg-white px-2.5 py-0.5 rounded shadow-sm border border-orange-200">
+                        Distance (1.000) &gt; Layout (0.386) &gt; Angular (0.281)
+                    </div>
+                </div>
+
+                <!-- 2. Illumination Radar -->
+                <div class="flex flex-col items-center text-center p-3.5 bg-teal-50/30 rounded-lg border border-teal-100">
+                    <div class="text-xs md:text-sm font-bold text-teal-900 mb-0.5">Illumination</div>
+                    <p class="text-xs text-slate-500 mb-2">Intensity &bull; Source Count &bull; Distribution</p>
+                    <svg id="svg_radar_illum" viewBox="-160 -115 320 230" class="w-full max-w-[240px] h-auto overflow-visible"></svg>
+                    <div class="mt-2 text-xs font-mono font-semibold text-teal-800 bg-white px-2.5 py-0.5 rounded shadow-sm border border-teal-200">
+                        Distribution (1.000) &gt; Intensity (0.662) &gt; Count (0.334)
+                    </div>
+                </div>
+
+                <!-- 3. Materials Disk -->
+                <div class="flex flex-col items-center text-center p-3.5 bg-purple-50/30 rounded-lg border border-purple-100">
+                    <div class="text-xs md:text-sm font-bold text-purple-900 mb-0.5">Materials</div>
+                    <p class="text-xs text-slate-500 mb-2">Reflectance & Contrast Retention (Radius = 0.75)</p>
+                    <svg id="svg_radar_mat" viewBox="-130 -115 260 230" class="w-full max-w-[200px] h-auto overflow-visible"></svg>
+                    <div class="mt-2 text-xs font-mono font-semibold text-purple-800 bg-white px-2.5 py-0.5 rounded shadow-sm border border-purple-200">
+                        Normalized Sensitivity Radius: 0.750
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mechanism Interpretation Banner -->
+            <div class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <strong class="text-slate-900 font-semibold">Physical Mechanism & Sensitivity Interpretation:</strong>
+                The normalized polar radius in each radar chart quantifies the relative contribution of each physical sub-factor to the SNR spread, defined as <span class="font-mono font-semibold text-slate-800 bg-white px-1.5 py-0.5 rounded border border-slate-300 shadow-sm text-xs">max(SNR) &minus; min(SNR)</span>. In Transport Geometry, propagation distance is the primary attenuation factor (<span class="font-mono font-semibold text-slate-800">1.000</span>); in Illumination, spatial source distribution critically dictates shadow contrast clarity (<span class="font-mono font-semibold text-slate-800">1.000</span>); for Materials, a normalized sensitivity radius of <span class="font-mono font-semibold text-slate-800">0.750</span> demonstrates that low-reflectance diffuse surfaces still maintain sufficient transport contrast for robust non-line-of-sight tracking.
+            </div>
+        </div>
+
+        <!-- ----------------------------------------------------------------- -->
+        <!-- [Row 3]: Multi-Factor Detailed Sensitivity Breakdown Cards -->
+        <!-- ----------------------------------------------------------------- -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+            <!-- Geometry Card -->
+            <div class="radar-card p-4 border-t-2" style="border-top-color: #C95A3A;">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="font-bold text-slate-800 text-xs md:text-sm">Transport Geometry</h4>
+                    <span class="text-[11px] px-1.5 py-0.2 rounded font-mono bg-orange-50 text-orange-800 border border-orange-200">Max = Distance</span>
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 leading-relaxed">
+                    <li>&bull; <strong>Distance (Spatial Span)</strong>: <span class="font-mono font-bold text-slate-900">1.000</span> (Dominant Decay)</li>
+                    <li>&bull; <strong>Layout (Occlusion Structure)</strong>: <span class="font-mono font-bold text-slate-900">0.386</span> (Geometric Constraint)</li>
+                    <li>&bull; <strong>Angular (Motion Angle)</strong>: <span class="font-mono font-bold text-slate-900">0.281</span> (FOV Span)</li>
+                </ul>
+                <p class="text-xs text-slate-500 mt-2.5 border-t border-slate-100 pt-2 leading-relaxed">Distance governs primary path loss, while favorable occlusion structures preserve high-SNR transport pathways and expand the continuous tracking boundary.</p>
+            </div>
+
+            <!-- Illumination Card -->
+            <div class="radar-card p-4 border-t-2" style="border-top-color: #278A79;">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="font-bold text-slate-800 text-xs md:text-sm">Illumination</h4>
+                    <span class="text-[11px] px-1.5 py-0.2 rounded font-mono bg-teal-50 text-teal-800 border border-teal-200">Max = Distribution</span>
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 leading-relaxed">
+                    <li>&bull; <strong>Distribution (Spatial Layout)</strong>: <span class="font-mono font-bold text-slate-900">1.000</span> (Shadow Contrast)</li>
+                    <li>&bull; <strong>Intensity (Irradiance)</strong>: <span class="font-mono font-bold text-slate-900">0.662</span> (Contrast Gain)</li>
+                    <li>&bull; <strong>Source Count (Multi-source)</strong>: <span class="font-mono font-bold text-slate-900">0.334</span> (Diffuse Multipath)</li>
+                </ul>
+                <p class="text-xs text-slate-500 mt-2.5 border-t border-slate-100 pt-2 leading-relaxed">Source distribution determines shadow boundary sharpness and contrast. Higher intensity extends sensing range, though excessive brightness risks ambient saturation.</p>
+            </div>
+
+            <!-- Materials & Space Card -->
+            <div class="radar-card p-4 border-t-2" style="border-top-color: #7766A6;">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="font-bold text-slate-800 text-xs md:text-sm">Materials & 3D Manifolds</h4>
+                    <span class="text-[11px] px-1.5 py-0.2 rounded font-mono bg-purple-50 text-purple-800 border border-purple-200">Radius = 0.75</span>
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 leading-relaxed">
+                    <li>&bull; <strong>Materials (Sensitivity)</strong>: <span class="font-mono font-bold text-slate-900">0.750</span> (Broad Robustness)</li>
+                    <li>&bull; <strong>Lower Manifold (Activity)</strong>: <span class="font-mono font-bold text-slate-900">a &le; 0.24 + 0.20 &times; T<sub>low</sub></span></li>
+                    <li>&bull; <strong>Upper Manifold (Tracking)</strong>: <span class="font-mono font-bold text-slate-900">a &ge; 0.76 &minus; 0.20 &times; T<sub>up</sub></span></li>
+                </ul>
+                <p class="text-xs text-slate-500 mt-2.5 border-t border-slate-100 pt-2 leading-relaxed">Even low-reflectance matte materials sustain adequate modulation response; the dual-manifold envelope delimits the high-fidelity operational regime.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 border-t border-slate-200 text-slate-400 text-xs font-mono">
+        <p>Research Showcase for Non-Line-of-Sight Sensing via Ambient Light Transport</p>
+        <p class="mt-0.5">All experimental datasets and 3D capability space parameters strictly conform to the paper specifications.</p>
+    </footer>
+
+</div>
+
+<script>
+    // ==========================================
+    // 1. Localization Synchronization Animations
+    // ==========================================
+    const personPath = new Path2D("M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7");
+
+    function drawFineScene(ctx, dataArr, currentT, lineCol, dotCol) {
+        ctx.clearRect(0, 0, 300, 230);
+        const scale = 45; const offsetX = 35; const offsetY = 30;
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5;
+        ctx.strokeRect(offsetX, offsetY, 4.85 * scale, 3.45 * scale);
+        ctx.fillStyle = '#64748b'; ctx.font = "12px Arial";
+        ctx.fillText("L1", offsetX-20, offsetY-5); ctx.fillText("L2", offsetX + 4.85*scale + 5, offsetY-5);
+        ctx.fillText("L3", offsetX + 4.85*scale + 5, offsetY + 3.45*scale + 15); ctx.fillText("L4", offsetX-20, offsetY + 3.45*scale + 15);
+
+        if (!dataArr || dataArr.length === 0) return;
+        ctx.beginPath();
+        let lastPt = null;
+        for (let pt of dataArr) {
+            if (pt.t <= currentT) {
+                let cx = offsetX + pt.x * scale; let cy = offsetY + pt.y * scale;
+                if (!lastPt) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+                lastPt = {cx, cy};
+            } else break;
+        }
+        ctx.strokeStyle = lineCol; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke();
+        
+        if (lastPt) {
+            ctx.save();
+            ctx.translate(lastPt.cx - 12, lastPt.cy - 22);
+            ctx.fillStyle = dotCol;
+            ctx.fill(personPath);
+            ctx.restore();
+        }
+    }
+
+    function drawRoughScene(ctx, dataArr, currentT, highlightCol) {
+        ctx.clearRect(0, 0, 300, 230);
+        const scale = 45; const offsetX = 35; const offsetY = 30;
+        const w = 4.85 * scale; const h = 3.45 * scale;
+        
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5;
+        ctx.strokeRect(offsetX, offsetY, w, h);
+        ctx.fillStyle = '#64748b'; ctx.font = "12px Arial";
+        ctx.fillText("L1", offsetX-20, offsetY-5); ctx.fillText("L2", offsetX + w + 5, offsetY-5);
+        ctx.fillText("L3", offsetX + w + 5, offsetY + h + 15); ctx.fillText("L4", offsetX-20, offsetY + h + 15);
+
+        if (!dataArr || dataArr.length === 0) return;
+        let curState = null;
+        for (let pt of dataArr) {
+            if (pt.t <= currentT) curState = pt.state; else break;
+        }
+        if (!curState) return;
+
+        ctx.strokeStyle = highlightCol; ctx.fillStyle = highlightCol;
+        ctx.lineWidth = 9; ctx.lineCap = "round";
+
+        ctx.beginPath();
+        if (curState === "L1") { ctx.arc(offsetX, offsetY, 11, 0, 2*Math.PI); ctx.fill(); }
+        else if (curState === "L2") { ctx.arc(offsetX+w, offsetY, 11, 0, 2*Math.PI); ctx.fill(); }
+        else if (curState === "L3") { ctx.arc(offsetX+w, offsetY+h, 11, 0, 2*Math.PI); ctx.fill(); }
+        else if (curState === "L4") { ctx.arc(offsetX, offsetY+h, 11, 0, 2*Math.PI); ctx.fill(); }
+        else if (curState === "L1-L2" || curState === "L2-L1") { ctx.moveTo(offsetX, offsetY); ctx.lineTo(offsetX+w, offsetY); ctx.stroke(); }
+        else if (curState === "L2-L3" || curState === "L3-L2") { ctx.moveTo(offsetX+w, offsetY); ctx.lineTo(offsetX+w, offsetY+h); ctx.stroke(); }
+        else if (curState === "L3-L4" || curState === "L4-L3") { ctx.moveTo(offsetX+w, offsetY+h); ctx.lineTo(offsetX, offsetY+h); ctx.stroke(); }
+        else if (curState === "L4-L1" || curState === "L1-L4") { ctx.moveTo(offsetX, offsetY+h); ctx.lineTo(offsetX, offsetY); ctx.stroke(); }
+    }
+
+    function setupController(vidId, btnId, gtCvsId, predCvsId, dataKey, isRough) {
+        const vid = document.getElementById(vidId);
+        const btn = document.getElementById(btnId);
+        const ctxGt = document.getElementById(gtCvsId).getContext('2d');
+        const ctxPred = document.getElementById(predCvsId).getContext('2d');
+
+        if (isRough) {
+            drawRoughScene(ctxGt, [], 0, ''); drawRoughScene(ctxPred, [], 0, '');
+        } else {
+            drawFineScene(ctxGt, [], 0, '', ''); drawFineScene(ctxPred, [], 0, '');
+        }
+
+        vid.addEventListener('timeupdate', () => {
+            const t = vid.currentTime;
+            if (isRough && typeof roughData !== 'undefined') {
+                drawRoughScene(ctxGt, roughData[dataKey].gt, t, 'rgba(59, 130, 246, 0.7)');
+                drawRoughScene(ctxPred, roughData[dataKey].pred, t, 'rgba(239, 68, 68, 0.7)');
+            } else if (!isRough && typeof trajectoryData !== 'undefined') {
+                drawFineScene(ctxGt, trajectoryData[dataKey].gt, t, '#2563eb', '#1d4ed8');
+                drawFineScene(ctxPred, trajectoryData[dataKey].pred, t, '#dc2626', '#b91c1c');
+            }
+        });
+        
+        vid.addEventListener('ended', () => { btn.innerText = "Play Sync Animation"; });
+
+        btn.onclick = () => {
+            if (vid.paused) { vid.play(); btn.innerText = "Pause Animation"; } 
+            else { vid.pause(); btn.innerText = "Resume Animation"; }
+        };
+    }
+
+    // ==========================================
+    // 2. High-Performance 3D Capability Space (Ultra-Lightweight & Zero-GC)
+    // ==========================================
+    
+    const viridisTable = [
+        [68, 1, 84], [72, 35, 116], [64, 67, 135], [52, 94, 141],
+        [41, 120, 142], [32, 144, 140], [34, 167, 132], [68, 190, 112],
+        [121, 209, 81], [189, 222, 38], [253, 231, 37]
+    ];
+    function getViridisColor(t) {
+        t = Math.max(0, Math.min(1, t));
+        const idx = t * (viridisTable.length - 1);
+        const i = Math.floor(idx);
+        const f = idx - i;
+        if (i >= viridisTable.length - 1) return viridisTable[viridisTable.length - 1];
+        const c1 = viridisTable[i], c2 = viridisTable[i + 1];
+        return [
+            (c1[0] + f * (c2[0] - c1[0])) / 255,
+            (c1[1] + f * (c2[1] - c1[1])) / 255,
+            (c1[2] + f * (c2[2] - c1[2])) / 255
+        ];
+    }
+
+    function conceptualColorField(g, i, a) {
+        let score = 0.16 + 0.34 * g + 0.20 * i + 0.28 * a + 0.12 * g * i - 0.18 * g * a + 0.05 * Math.sin(2 * Math.PI * (g + 1.4 * i - 0.7 * a));
+        return Math.max(0, Math.min(1, score));
+    }
+
+    const terrainCfg = {
+        baseline: [0.12, 0.11, -0.06],
+        rounded_peaks: [
+            [[0.23, 0.29], [0.27, 0.24], 0.45],
+            [[0.49, 0.76], [0.2, 0.15], 0.22],
+            [[0.76, 0.57], [0.08, 0.1], 0.34],
+            [[0.68, 0.22], [0.1, 0.07], 0.16]
+        ],
+        valleys: [
+            [[0.51, 0.37], [0.15, 0.11], 0.25],
+            [[0.34, 0.62], [0.11, 0.15], 0.14],
+            [[0.87, 0.86], [0.2, 0.16], 0.13]
+        ],
+        ridge: { axis: [0.83, -0.56, -0.08], extent: [0.56, 0.83, -0.53], axis_width: 0.055, extent_width: 0.5, amplitude: 0.2 },
+        harmonics: [
+            ["sin", 0.045, [1.35, 0.92], 0.0],
+            ["cos", 0.026, [2.7, -1.63], 0.31],
+            ["sin", 0.014, [5.15, 3.6], 0.17]
+        ],
+        normalized_range: [0.05, 0.95]
+    };
+
+    function gaussianFeature(g, i, center, width, amp) {
+        return amp * Math.exp(-(((g - center[0]) / width[0]) ** 2 + ((i - center[1]) / width[1]) ** 2));
+    }
+
+    function mountainProfile(g, i, phase) {
+        let [intercept, slopeG, slopeI] = terrainCfg.baseline;
+        let t = intercept + slopeG * g + slopeI * i;
+        for (let [center, width, amp] of terrainCfg.rounded_peaks) {
+            t += gaussianFeature(g, i, center, width, amp);
+        }
+        for (let [center, width, amp] of terrainCfg.valleys) {
+            t -= gaussianFeature(g, i, center, width, amp);
+        }
+        let r = terrainCfg.ridge;
+        let axis = r.axis[0] * g + r.axis[1] * i + r.axis[2];
+        let ext = r.extent[0] * g + r.extent[1] * i + r.extent[2];
+        t += r.amplitude * Math.exp(-((axis / r.axis_width) ** 2)) * Math.exp(-((ext / r.extent_width) ** 4));
+        for (let [kind, amp, freqs, offset] of terrainCfg.harmonics) {
+            let arg = 2 * Math.PI * (freqs[0] * g + freqs[1] * i + offset + phase);
+            t += amp * (kind === "sin" ? Math.sin(arg) : Math.cos(arg));
+        }
+        return t;
+    }
+
+    function createGlowPointTexture() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 64; canvas.height = 64;
+        const ctx = canvas.getContext('2d');
+        const grad = ctx.createRadialGradient(32, 32, 2, 32, 32, 30);
+        grad.addColorStop(0, 'rgba(255, 255, 255, 1.0)');
+        grad.addColorStop(0.35, 'rgba(255, 255, 255, 0.9)');
+        grad.addColorStop(0.75, 'rgba(255, 255, 255, 0.45)');
+        grad.addColorStop(1, 'rgba(255, 255, 255, 0.0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 64, 64);
+        return new THREE.CanvasTexture(canvas);
+    }
+
+    function create3DTextSprite(text, colorHex = "#ffffff", bgColor = "rgba(15, 23, 42, 0.85)", borderColor = "#38bdf8") {
+        const canvas = document.createElement('canvas');
+        canvas.width = 512; canvas.height = 128;
+        const ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = bgColor;
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        if (ctx.roundRect) { ctx.roundRect(8, 8, 496, 112, 16); } else { ctx.rect(8, 8, 496, 112); }
+        ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = colorHex;
+        ctx.font = 'bold 34px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(text, 256, 64);
+
+        const texture = new THREE.CanvasTexture(canvas);
+        const spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false });
+        const sprite = new THREE.Sprite(spriteMat);
+        sprite.scale.set(0.68, 0.17, 1.0);
+        return sprite;
+    }
+
+    function initThreeScene() {
+        const container = document.getElementById('threejs_viewport');
+        if (!container || typeof THREE === 'undefined') return;
+
+        const width = container.clientWidth || 1000;
+        const height = container.clientHeight || 720;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x090e1a);
+
+        const aspect = width / height;
+        const baseFrustum = 2.85;
+        const camera = new THREE.OrthographicCamera(
+            -baseFrustum * aspect / 2, baseFrustum * aspect / 2,
+            baseFrustum / 2, -baseFrustum / 2,
+            0.1, 100
+        );
+
+        camera.up.set(0, 0, 1);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
+        container.innerHTML = '';
+        container.appendChild(renderer.domElement);
+
+        const rootGroup = new THREE.Group();
+        rootGroup.position.set(0, 0, -0.05);
+        scene.add(rootGroup);
+
+        // 1. Crystal Bounding Box & Grid
+        const cubeGeo = new THREE.BoxGeometry(1, 1, 0.9);
+        const cubeEdges = new THREE.EdgesGeometry(cubeGeo);
+        const edgeLines = new THREE.LineSegments(cubeEdges, new THREE.LineBasicMaterial({ 
+            color: 0x38bdf8, 
+            transparent: true, 
+            opacity: 0.75, 
+            linewidth: 1.5 
+        }));
+        rootGroup.add(edgeLines);
+
+        const gridHelper = new THREE.GridHelper(1.4, 7, 0x38bdf8, 0x1e293b);
+        gridHelper.position.z = -0.45;
+        gridHelper.rotation.x = Math.PI / 2;
+        rootGroup.add(gridHelper);
+
+        // 2. 3D Coordinate Arrows & Text Sprites
+        const originPoint = new THREE.Vector3(-0.5, -0.5, -0.45);
+        
+        // X: Transport Geometry (g)
+        const arrowX = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), originPoint, 1.28, 0xf97316, 0.14, 0.08);
+        rootGroup.add(arrowX);
+        const labelX = create3DTextSprite("Transport Geometry (g)", "#fb923c", "rgba(15, 23, 42, 0.9)", "#f97316");
+        labelX.position.set(0.85, -0.5, -0.45);
+        rootGroup.add(labelX);
+
+        // Y: Illumination (i)
+        const arrowY = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), originPoint, 1.28, 0x14b8a6, 0.14, 0.08);
+        rootGroup.add(arrowY);
+        const labelY = create3DTextSprite("Illumination (i)", "#2dd4bf", "rgba(15, 23, 42, 0.9)", "#14b8a6");
+        labelY.position.set(-0.5, 0.85, -0.45);
+        rootGroup.add(labelY);
+
+        // Z: Activity Level (a)
+        const arrowZ = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), originPoint, 1.20, 0xa855f7, 0.14, 0.08);
+        rootGroup.add(arrowZ);
+        const labelZ = create3DTextSprite("Activity Level (a)", "#c084fc", "rgba(15, 23, 42, 0.9)", "#a855f7");
+        labelZ.position.set(-0.5, -0.5, 0.72);
+        rootGroup.add(labelZ);
+
+        // 3. Terrain Data Calculation
+        const N = 36;
+        const normLower = [];
+        const normUpper = [];
+        let minL = Infinity, maxL = -Infinity;
+        let minU = Infinity, maxU = -Infinity;
+        const rawL = []; const rawU = [];
+
+        for (let ix = 0; ix <= N; ix++) {
+            rawL[ix] = []; rawU[ix] = [];
+            const g = ix / N;
+            for (let iy = 0; iy <= N; iy++) {
+                const i = iy / N;
+                const vL = mountainProfile(g, i, 0.0);
+                const vU = mountainProfile(1.0 - g, i, 0.19);
+                rawL[ix][iy] = vL; rawU[ix][iy] = vU;
+                if (vL < minL) minL = vL; if (vL > maxL) maxL = vL;
+                if (vU < minU) minU = vU; if (vU > maxU) maxU = vU;
+            }
+        }
+        for (let ix = 0; ix <= N; ix++) {
+            normLower[ix] = []; normUpper[ix] = [];
+            for (let iy = 0; iy <= N; iy++) {
+                normLower[ix][iy] = 0.05 + 0.90 * ((rawL[ix][iy] - minL) / (maxL - minL + 1e-6));
+                normUpper[ix][iy] = 0.05 + 0.90 * ((rawU[ix][iy] - minU) / (maxU - minU + 1e-6));
+            }
+        }
+
+        // 4. 3D Discrete Sample Point Cloud (3,136 Physical Points)
+        const gridResX = 14;
+        const gridResY = 14;
+        const gridResZ = 16;
+        const totalSamplePoints = gridResX * gridResY * gridResZ;
+
+        const pointDataList = [];
+        const pointPositions = new Float32Array(totalSamplePoints * 3);
+        const pointColors = new Float32Array(totalSamplePoints * 3);
+
+        let pIdx = 0;
+        for (let ix = 0; ix < gridResX; ix++) {
+            const g = (ix + 0.5) / gridResX;
+            for (let iy = 0; iy < gridResY; iy++) {
+                const i = (iy + 0.5) / gridResY;
+                for (let iz = 0; iz < gridResZ; iz++) {
+                    const a = (iz + 0.5) / gridResZ;
+
+                    const posX = g - 0.5;
+                    const posY = i - 0.5;
+                    const posZ = (a - 0.5) * 0.9;
+
+                    pointPositions[pIdx * 3] = posX;
+                    pointPositions[pIdx * 3 + 1] = posY;
+                    pointPositions[pIdx * 3 + 2] = posZ;
+
+                    const score = conceptualColorField(g, i, a);
+                    const rgb = getViridisColor(score);
+                    pointColors[pIdx * 3] = rgb[0];
+                    pointColors[pIdx * 3 + 1] = rgb[1];
+                    pointColors[pIdx * 3 + 2] = rgb[2];
+
+                    pointDataList.push({
+                        id: pIdx,
+                        g: g, i: i, a: a,
+                        curX: posX, curY: posY, curZ: posZ,
+                        score: score
+                    });
+
+                    pIdx++;
+                }
+            }
+        }
+
+        const pointGeom = new THREE.BufferGeometry();
+        pointGeom.setAttribute('position', new THREE.BufferAttribute(pointPositions, 3));
+        pointGeom.setAttribute('color', new THREE.BufferAttribute(pointColors, 3));
+
+        const pointTexture = createGlowPointTexture();
+        const pointMat = new THREE.PointsMaterial({
+            size: 0.058,
+            map: pointTexture,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.95,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        const pointCloud = new THREE.Points(pointGeom, pointMat);
+        rootGroup.add(pointCloud);
+
+        // 5. Dual Semi-Transparent Manifold Envelopes (Lightweight Lambert for maximum 120fps smoothness)
+        function buildManifoldShell(isUpper) {
+            const geom = new THREE.BufferGeometry();
+            const pos = new Float32Array((N + 1) * (N + 1) * 3);
+            const col = new Float32Array((N + 1) * (N + 1) * 3);
+            const indices = [];
+
+            let ptr = 0;
+            for (let ix = 0; ix <= N; ix++) {
+                const g = ix / N;
+                for (let iy = 0; iy <= N; iy++) {
+                    const i = iy / N;
+                    pos[ptr] = g - 0.5;
+                    pos[ptr + 1] = i - 0.5;
+
+                    const curA = isUpper 
+                        ? 0.76 - 0.20 * normUpper[ix][iy] 
+                        : 0.24 + 0.20 * normLower[ix][iy];
+                    pos[ptr + 2] = (curA - 0.5) * 0.9;
+
+                    const rgb = getViridisColor(conceptualColorField(g, i, curA));
+                    col[ptr] = rgb[0]; col[ptr + 1] = rgb[1]; col[ptr + 2] = rgb[2];
+                    ptr += 3;
+                }
+            }
+
+            for (let ix = 0; ix < N; ix++) {
+                for (let iy = 0; iy < N; iy++) {
+                    const a = ix * (N + 1) + iy;
+                    const b = (ix + 1) * (N + 1) + iy;
+                    const c = (ix + 1) * (N + 1) + (iy + 1);
+                    const d = ix * (N + 1) + (iy + 1);
+                    indices.push(a, b, d); indices.push(b, c, d);
+                }
+            }
+
+            geom.setIndex(indices);
+            geom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+            geom.setAttribute('color', new THREE.BufferAttribute(col, 3));
+            geom.computeVertexNormals();
+
+            const mat = new THREE.MeshLambertMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.42,
+                side: THREE.DoubleSide,
+                depthWrite: false
+            });
+            const mesh = new THREE.Mesh(geom, mat);
+
+            const wireMat = new THREE.MeshBasicMaterial({
+                color: isUpper ? 0xfde047 : 0x38bdf8,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.22
+            });
+            const wireMesh = new THREE.Mesh(geom, wireMat);
+            mesh.add(wireMesh);
+
+            return mesh;
+        }
+
+        const lowerShell = buildManifoldShell(false);
+        const upperShell = buildManifoldShell(true);
+        rootGroup.add(lowerShell);
+        rootGroup.add(upperShell);
+
+        // 6. Raycast Selection & Solid Laser Drop Lines
+        const highlightGroup = new THREE.Group();
+        rootGroup.add(highlightGroup);
+
+        const targetSphereGeo = new THREE.SphereGeometry(0.038, 16, 16);
+        const targetSphereMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const targetSphere = new THREE.Mesh(targetSphereGeo, targetSphereMat);
+        highlightGroup.add(targetSphere);
+
+        const ringGeo = new THREE.RingGeometry(0.045, 0.065, 32);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0x34d399, side: THREE.DoubleSide, transparent: true, opacity: 0.9 });
+        const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+        highlightGroup.add(ringMesh);
+
+        function createLaserDropLine(colorHex) {
+            const geom = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+            const mat = new THREE.LineBasicMaterial({
+                color: colorHex,
+                linewidth: 2,
+                transparent: true,
+                opacity: 0.85
+            });
+            return new THREE.Line(geom, mat);
+        }
+
+        const lineToBottom = createLaserDropLine(0x38bdf8);
+        const lineToXPlane = createLaserDropLine(0xf97316);
+        const lineToYPlane = createLaserDropLine(0x14b8a6);
+        highlightGroup.add(lineToBottom);
+        highlightGroup.add(lineToXPlane);
+        highlightGroup.add(lineToYPlane);
+
+        highlightGroup.visible = false;
+
+        // 7. Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.95);
+        scene.add(ambientLight);
+        const keyLight = new THREE.DirectionalLight(0x38bdf8, 0.8);
+        keyLight.position.set(3, 4, 5);
+        scene.add(keyLight);
+
+        // 8. OrbitControls & Smooth Damping Zoom Engine
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.rotateSpeed = 0.9;
+        controls.panSpeed = 0.8;
+        controls.screenSpacePanning = true;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1.0;
+        controls.minPolarAngle = 0.05;
+        controls.maxPolarAngle = Math.PI - 0.05;
+        controls.enableZoom = false;
+
+        let isAutoSpin = true;
+        let isMicroMode = false;
+
+        let targetZoom = 1.0;
+        const minZoom = 0.75;
+        const maxZoom = 4.2;
+
+        let isTransitioning = false;
+        let startCamPos = new THREE.Vector3();
+        let targetCamPos = new THREE.Vector3();
+        let startTarget = new THREE.Vector3();
+        let endTarget = new THREE.Vector3();
+        let transitionProgress = 1.0;
+
+        function smoothTransitionTo(camPos, lookTarget, zoomVal = 1.0) {
+            isTransitioning = true;
+            transitionProgress = 0.0;
+            startCamPos.copy(camera.position);
+            targetCamPos.copy(camPos);
+            startTarget.copy(controls.target);
+            endTarget.copy(lookTarget);
+            targetZoom = zoomVal;
+        }
+
+        const hudModeTitle = document.getElementById('hud_mode_title');
+        const hudZoomScale = document.getElementById('hud_zoom_scale');
+        const microReticle = document.getElementById('micro_reticle_overlay');
+        const btnToggleMicro = document.getElementById('btn_toggle_micro');
+        const microBtnText = document.getElementById('micro_btn_text');
+
+        function updateZoomUI() {
+            hudZoomScale.innerText = `SCALE: ${camera.zoom.toFixed(2)}x`;
+            isMicroMode = camera.zoom >= 1.65;
+
+            pointMat.size = 0.054 + 0.010 * Math.max(0, camera.zoom - 1.0);
+
+            if (isMicroMode) {
+                hudModeTitle.innerText = "MICRO DEEP INSPECT";
+                hudModeTitle.className = "font-semibold text-sky-400 tracking-wide";
+                microReticle.classList.remove('opacity-0');
+                microReticle.classList.add('opacity-100');
+                microBtnText.innerText = "Macro View";
+                btnToggleMicro.className = "px-2.5 py-1 rounded text-xs font-medium bg-sky-600 text-white shadow transition";
+            } else {
+                hudModeTitle.innerText = "MACRO OVERVIEW";
+                hudModeTitle.className = "font-semibold text-emerald-400 tracking-wide";
+                microReticle.classList.add('opacity-0');
+                microReticle.classList.remove('opacity-100');
+                microBtnText.innerText = "Micro View";
+                btnToggleMicro.className = "px-2.5 py-1 rounded text-xs font-medium bg-sky-600/30 text-sky-200 hover:bg-sky-600/50 transition";
+            }
+        }
+
+        // Exponential Smooth Mouse Wheel Zoom
+        container.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const zoomMultiplier = 1.25;
+            if (e.deltaY < 0) {
+                targetZoom = Math.min(maxZoom, targetZoom * zoomMultiplier);
+            } else {
+                targetZoom = Math.max(minZoom, targetZoom / zoomMultiplier);
+            }
+        }, { passive: false });
+
+        const dist = 3.5;
+        function snapToStandardView() {
+            const elev = 25 * Math.PI / 180;
+            const azim = 45 * Math.PI / 180;
+            const px = dist * Math.cos(elev) * Math.sin(azim);
+            const py = -dist * Math.cos(elev) * Math.cos(azim);
+            const pz = dist * Math.sin(elev);
+            camera.up.set(0, 0, 1);
+            smoothTransitionTo(new THREE.Vector3(px, py, pz), new THREE.Vector3(0, 0, -0.05), 1.0);
+        }
+
+        function snapToFrontView() {
+            camera.up.set(0, 0, 1);
+            smoothTransitionTo(new THREE.Vector3(0, -dist, 0), new THREE.Vector3(0, 0, -0.05), 1.0);
+        }
+
+        function snapToTopView() {
+            camera.up.set(0, 1, 0);
+            smoothTransitionTo(new THREE.Vector3(0, 0, dist), new THREE.Vector3(0, 0, -0.05), 1.0);
+        }
+
+        function snapToSideView() {
+            camera.up.set(0, 0, 1);
+            smoothTransitionTo(new THREE.Vector3(dist, 0, 0), new THREE.Vector3(0, 0, -0.05), 1.0);
+        }
+
+        snapToStandardView();
+
+        // 9. Ultra-Fast Raycasting (Throttled & Cached to prevent GC / Lag)
+        const raycaster = new THREE.Raycaster();
+        raycaster.params.Points.threshold = 0.038;
+        const mouseVec = new THREE.Vector2();
+
+        const probeCoords = document.getElementById('probe_coords');
+        const probeVal = document.getElementById('probe_value');
+        const probeDesc = document.getElementById('probe_desc');
+        const probeBadge = document.getElementById('probe_badge');
+
+        let lastHoveredPt = null;
+        let lastHoveredId = -1;
+        let isPointerDown = false;
+        let pointerDownPos = { x: 0, y: 0 };
+        let isMouseMoving = false;
+
+        container.addEventListener('pointerdown', (e) => {
+            isPointerDown = true;
+            pointerDownPos = { x: e.clientX, y: e.clientY };
+        });
+
+        container.addEventListener('pointermove', (e) => {
+            const rect = container.getBoundingClientRect();
+            mouseVec.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            mouseVec.y = -((e.clientY - topRect) / rect.height) * 2 + 1;
+            isMouseMoving = true;
+        }, { passive: true });
+
+        let topRect = container.getBoundingClientRect().top;
+        window.addEventListener('scroll', () => {
+            topRect = container.getBoundingClientRect().top;
+        }, { passive: true });
+
+        function handleRaycast() {
+            if (!isMouseMoving || isPointerDown) return;
+            isMouseMoving = false;
+
+            raycaster.setFromCamera(mouseVec, camera);
+            const intersects = raycaster.intersectObject(pointCloud);
+
+            if (intersects.length > 0) {
+                const hit = intersects[0];
+                if (hit.index === lastHoveredId) return;
+                lastHoveredId = hit.index;
+
+                const ptData = pointDataList[hit.index];
+                if (ptData) {
+                    lastHoveredPt = ptData;
+                    highlightGroup.visible = true;
+                    targetSphere.position.set(ptData.curX, ptData.curY, ptData.curZ);
+                    ringMesh.position.set(ptData.curX, ptData.curY, ptData.curZ);
+                    ringMesh.lookAt(camera.position);
+
+                    const pBottom = lineToBottom.geometry.attributes.position.array;
+                    pBottom[0] = ptData.curX; pBottom[1] = ptData.curY; pBottom[2] = ptData.curZ;
+                    pBottom[3] = ptData.curX; pBottom[4] = ptData.curY; pBottom[5] = -0.45;
+                    lineToBottom.geometry.attributes.position.needsUpdate = true;
+
+                    const pX = lineToXPlane.geometry.attributes.position.array;
+                    pX[0] = ptData.curX; pX[1] = ptData.curY; pX[2] = ptData.curZ;
+                    pX[3] = 0.5; pX[4] = ptData.curY; pX[5] = ptData.curZ;
+                    lineToXPlane.geometry.attributes.position.needsUpdate = true;
+
+                    const pY = lineToYPlane.geometry.attributes.position.array;
+                    pY[0] = ptData.curX; pY[1] = ptData.curY; pY[2] = ptData.curZ;
+                    pY[3] = ptData.curX; pY[4] = 0.5; pY[5] = ptData.curZ;
+                    lineToYPlane.geometry.attributes.position.needsUpdate = true;
+
+                    probeCoords.innerText = `g = ${ptData.g.toFixed(2)} | i = ${ptData.i.toFixed(2)} | a = ${ptData.a.toFixed(2)}`;
+                    const scorePct = (ptData.score * 100).toFixed(1);
+
+                    if (ptData.a > 0.65) {
+                        probeVal.innerText = `Capability Score: ${scorePct}% | High-Accuracy Zone`;
+                        probeVal.className = "text-emerald-300 font-semibold text-xs";
+                        probeBadge.innerText = "UPPER MANIFOLD";
+                        probeBadge.className = "px-1.5 py-0.2 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-semibold";
+                        probeDesc.innerText = `Click point to zoom focus | Drag to orbit in 360°`;
+                    } else if (ptData.a < 0.35) {
+                        probeVal.innerText = `Capability Score: ${scorePct}% | Activity Detection Zone`;
+                        probeVal.className = "text-blue-300 font-semibold text-xs";
+                        probeBadge.innerText = "LOWER MANIFOLD";
+                        probeBadge.className = "px-1.5 py-0.2 rounded text-[10px] bg-blue-500/20 text-blue-300 font-semibold";
+                        probeDesc.innerText = `Click point to zoom focus | Drag to orbit in 360°`;
+                    } else {
+                        probeVal.innerText = `Capability Score: ${scorePct}% | Transition Void Zone`;
+                        probeVal.className = "text-amber-300 font-semibold text-xs";
+                        probeBadge.innerText = "CUTAWAY VOID";
+                        probeBadge.className = "px-1.5 py-0.2 rounded text-[10px] bg-amber-500/20 text-amber-300 font-semibold";
+                        probeDesc.innerText = `Constrained by occlusion geometry or ambient multipath`;
+                    }
+                }
+            }
+        }
+
+        container.addEventListener('pointerup', (e) => {
+            isPointerDown = false;
+            if (Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y) < 4) {
+                if (lastHoveredPt) {
+                    const focusPt = new THREE.Vector3(lastHoveredPt.curX, lastHoveredPt.curY, lastHoveredPt.curZ);
+                    const camDir = camera.position.clone().sub(controls.target).normalize();
+                    const newCamPos = focusPt.clone().add(camDir.multiplyScalar(dist));
+                    smoothTransitionTo(newCamPos, focusPt, 2.8);
+                }
+            }
+        });
+
+        // Button Event Listeners
+        const btnSpin = document.getElementById('btn_toggle_spin');
+        const spinText = document.getElementById('spin_text');
+        btnSpin.onclick = () => {
+            isAutoSpin = !isAutoSpin;
+            controls.autoRotate = isAutoSpin;
+            spinText.innerText = isAutoSpin ? "Pause Orbit" : "Resume Orbit";
+            btnSpin.classList.toggle('bg-slate-700', isAutoSpin);
+        };
+
+        // Canonical Alignment Buttons
+        document.getElementById('btn_reset_cam').onclick = () => {
+            snapToStandardView();
+        };
+        document.getElementById('btn_front_view').onclick = () => {
+            snapToFrontView();
+        };
+        document.getElementById('btn_top_view').onclick = () => {
+            snapToTopView();
+        };
+        const btnSide = document.getElementById('btn_side_view');
+        if (btnSide) btnSide.onclick = () => {
+            snapToSideView();
+        };
+
+        // Multi-Scale Toggle
+        btnToggleMicro.onclick = () => {
+            if (isMicroMode) {
+                snapToStandardView();
+            } else {
+                const targetPos = lastHoveredPt ? new THREE.Vector3(lastHoveredPt.curX, lastHoveredPt.curY, lastHoveredPt.curZ) : new THREE.Vector3(0, 0, -0.05);
+                const camDir = camera.position.clone().sub(controls.target).normalize();
+                const newCamPos = targetPos.clone().add(camDir.multiplyScalar(dist));
+                smoothTransitionTo(newCamPos, targetPos, 2.6);
+            }
+        };
+
+        // Step Zoom Buttons
+        document.getElementById('btn_zoom_in').onclick = () => {
+            targetZoom = Math.min(maxZoom, targetZoom * 1.40);
+        };
+        document.getElementById('btn_zoom_out').onclick = () => {
+            targetZoom = Math.max(minZoom, targetZoom / 1.40);
+        };
+
+        // Window Resize Listener
+        window.addEventListener('resize', () => {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            if (w && h) {
+                const asp = w / h;
+                camera.left = -baseFrustum * asp / 2;
+                camera.right = baseFrustum * asp / 2;
+                camera.top = baseFrustum / 2;
+                camera.bottom = -baseFrustum / 2;
+                camera.updateProjectionMatrix();
+                renderer.setSize(w, h);
+            }
+        });
+
+        // 10. Viewport Visibility Observer (Pauses WebGL when scrolled out of view!)
+        let is3DVisible = true;
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    is3DVisible = entry.isIntersecting;
+                });
+            }, { threshold: 0.05 });
+            observer.observe(container);
+        }
+
+        // Main Render Loop
+        let clock = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // If 3D viewport is off-screen, completely pause rendering to free 100% CPU/GPU for smooth scrolling!
+            if (!is3DVisible) return;
+
+            clock += 0.02;
+
+            if (isTransitioning) {
+                transitionProgress += 0.045;
+                const t = Math.min(1.0, transitionProgress);
+                const ease = 1 - Math.pow(1 - t, 3);
+
+                camera.position.lerpVectors(startCamPos, targetCamPos, ease);
+                controls.target.lerpVectors(startTarget, endTarget, ease);
+
+                if (t >= 1.0) {
+                    isTransitioning = false;
+                }
+            }
+
+            if (Math.abs(camera.zoom - targetZoom) > 0.001) {
+                camera.zoom += (targetZoom - camera.zoom) * 0.16;
+                camera.updateProjectionMatrix();
+                updateZoomUI();
+            }
+
+            controls.update();
+            handleRaycast();
+
+            if (highlightGroup.visible) {
+                const scale = 1.0 + Math.sin(clock * 5) * 0.2;
+                ringMesh.scale.set(scale, scale, 1.0);
+            }
+
+            renderer.render(scene, camera);
+        }
+        animate();
+    }
+
+    // ==========================================
+    // 3. Vector SVG Radar Charts Generation (No Clipping & Academic Typography)
+    // ==========================================
+    function drawSvgRadar(svgId, labels, values, strokeColor, maxRadius = 66) {
+        const svg = document.getElementById(svgId);
+        if (!svg) return;
+
+        const rings = [0.25, 0.50, 0.75, 1.00];
+        let content = '';
+
+        rings.forEach((r, idx) => {
+            const rad = r * maxRadius;
+            content += `<circle cx="0" cy="0" r="${rad}" fill="none" stroke="#e2e8f0" stroke-width="${idx === 3 ? '1.4' : '0.8'}" stroke-dasharray="${idx === 3 ? 'none' : '2,2'}" />`;
+            if (idx < 3) {
+                content += `<text x="3" y="${-rad + 9}" font-size="8.5" fill="#94a3b8" font-family="monospace">${r.toFixed(2)}</text>`;
+            }
+        });
+
+        const n = labels.length;
+        const points = [];
+        for (let i = 0; i < n; i++) {
+            const angle = (i * 2 * Math.PI / n) - Math.PI / 2;
+            const ax = Math.cos(angle) * maxRadius;
+            const ay = Math.sin(angle) * maxRadius;
+            content += `<line x1="0" y1="0" x2="${ax}" y2="${ay}" stroke="#cbd5e1" stroke-width="0.9" />`;
+
+            const valRadius = values[i] * maxRadius;
+            const px = Math.cos(angle) * valRadius;
+            const py = Math.sin(angle) * valRadius;
+            points.push(`${px.toFixed(2)},${py.toFixed(2)}`);
+
+            const labelDist = maxRadius + 18;
+            const lx = Math.cos(angle) * labelDist;
+            const ly = Math.sin(angle) * labelDist;
+            
+            let anchor = 'middle';
+            let dx = 0;
+            let dy = 4;
+            if (i === 0) {
+                anchor = 'middle';
+                dy = -6;
+            } else if (Math.cos(angle) > 0) {
+                anchor = 'start';
+                dx = 6;
+                dy = 8;
+            } else {
+                anchor = 'end';
+                dx = -6;
+                dy = 8;
+            }
+            
+            const lines = labels[i].split('\n');
+            if (lines.length === 1) {
+                content += `<text x="${lx + dx}" y="${ly + dy}" font-size="11.5" font-weight="600" fill="#334155" text-anchor="${anchor}">${labels[i]}</text>`;
+            } else {
+                content += `<text x="${lx + dx}" y="${ly + dy - 6}" font-size="11.5" font-weight="600" fill="#334155" text-anchor="${anchor}">
+                    <tspan x="${lx + dx}" dy="0">${lines[0]}</tspan>
+                    <tspan x="${lx + dx}" dy="13">${lines[1]}</tspan>
+                </text>`;
+            }
+        }
+
+        const polyPoints = points.join(' ');
+        content += `<polygon points="${polyPoints}" fill="${strokeColor}" fill-opacity="0.25" stroke="${strokeColor}" stroke-width="2.2" />`;
+
+        points.forEach(p => {
+            const [px, py] = p.split(',');
+            content += `<circle cx="${px}" cy="${py}" r="4.2" fill="${strokeColor}" stroke="#ffffff" stroke-width="1.2" />`;
+        });
+
+        svg.innerHTML = content;
+    }
+
+    function drawSvgMaterialDisk(svgId, color, radiusRatio = 0.75, maxRadius = 66) {
+        const svg = document.getElementById(svgId);
+        if (!svg) return;
+
+        const rings = [0.25, 0.50, 0.75, 1.00];
+        let content = '';
+
+        rings.forEach((r, idx) => {
+            const rad = r * maxRadius;
+            content += `<circle cx="0" cy="0" r="${rad}" fill="none" stroke="#e2e8f0" stroke-width="${idx === 3 ? '1.4' : '0.8'}" stroke-dasharray="${idx === 3 ? 'none' : '2,2'}" />`;
+            if (idx < 3) {
+                content += `<text x="3" y="${-rad + 9}" font-size="8.5" fill="#94a3b8" font-family="monospace">${r.toFixed(2)}</text>`;
+            }
+        });
+
+        const diskRad = radiusRatio * maxRadius;
+        content += `<circle cx="0" cy="0" r="${diskRad}" fill="${color}" fill-opacity="0.28" stroke="${color}" stroke-width="2.2" />`;
+        content += `<text x="0" y="4" font-size="11" font-weight="bold" fill="${color}" text-anchor="middle" font-family="monospace">R = 0.750</text>`;
+
+        svg.innerHTML = content;
+    }
+
+    // ==========================================
+    // 4. Page Ready & Throttled Scrollspy
+    // ==========================================
+    window.onload = () => {
+        // Localization Controllers
+        setupController('vid_rough_cw', 'btn_rough_cw', 'cvs_gt_rough_cw', 'cvs_pred_rough_cw', 'CW', true);
+        setupController('vid_rough_ccw', 'btn_rough_ccw', 'cvs_gt_rough_ccw', 'cvs_pred_rough_ccw', 'CCW', true);
+        setupController('vid_cw', 'btn_cw', 'cvs_gt_cw', 'cvs_pred_cw', 'CW', false);
+        setupController('vid_ccw', 'btn_ccw', 'cvs_gt_ccw', 'cvs_pred_ccw', 'CCW', false);
+
+        // Radar Charts
+        drawSvgRadar('svg_radar_geom', ['Angular', 'Layout', 'Distance'], [0.281303, 0.386268, 1.0], '#C95A3A');
+        drawSvgRadar('svg_radar_illum', ['Intensity', 'Source count', 'Source\ndistribution'], [0.662190, 0.334237, 1.0], '#278A79');
+        drawSvgMaterialDisk('svg_radar_mat', '#7766A6', 0.75);
+
+        // 3D Scene Initialization
+        initThreeScene();
+
+        // Mode Switching
+        const btnInteractive = document.getElementById('btn_view_interactive');
+        const btnStatic = document.getElementById('btn_view_static');
+        const boxInteractive = document.getElementById('container_interactive_model');
+        const boxStatic = document.getElementById('container_static_model');
+
+        btnInteractive.onclick = () => {
+            boxInteractive.classList.remove('hidden');
+            boxStatic.classList.add('hidden');
+            btnInteractive.className = 'px-3 py-1.5 bg-slate-900 text-white rounded font-medium shadow-sm hover:bg-slate-800 transition';
+            btnStatic.className = 'px-3 py-1.5 bg-slate-100 text-slate-700 rounded font-medium hover:bg-slate-200 transition';
+        };
+
+        btnStatic.onclick = () => {
+            boxStatic.classList.remove('hidden');
+            boxInteractive.classList.add('hidden');
+            btnStatic.className = 'px-3 py-1.5 bg-slate-900 text-white rounded font-medium shadow-sm hover:bg-slate-800 transition';
+            btnInteractive.className = 'px-3 py-1.5 bg-slate-100 text-slate-700 rounded font-medium hover:bg-slate-200 transition';
+        };
+
+        // High-Performance Passive Scrollspy (Zero Layout Thrashing)
+        const sections = Array.from(document.querySelectorAll('section[id]'));
+        const navLinks = Array.from(document.querySelectorAll('#nav-tabs a'));
+        let isScrollPending = false;
+
+        window.addEventListener('scroll', () => {
+            if (!isScrollPending) {
+                requestAnimationFrame(() => {
+                    let current = '';
+                    const scrollPos = window.scrollY + 140;
+                    for (let s of sections) {
+                        if (s.offsetTop <= scrollPos) {
+                            current = s.id;
+                        }
+                    }
+                    navLinks.forEach(link => {
+                        if (link.getAttribute('href') === `#${current}`) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                    isScrollPending = false;
+                });
+                isScrollPending = true;
+            }
+        }, { passive: true });
+    };
+</script>
+
+</body>
+</html>

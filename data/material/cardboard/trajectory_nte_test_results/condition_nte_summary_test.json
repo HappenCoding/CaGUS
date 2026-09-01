@@ -1,0 +1,10 @@
+{
+  "factor": "material",
+  "condition": "material/cardboard",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\material\\cardboard",
+  "num_videos": 10,
+  "mean_nte": 0.14579785987734795,
+  "std_nte": 0.036323655245411174,
+  "min_nte": 0.09214042127132416,
+  "max_nte": 0.23238854110240936
+}

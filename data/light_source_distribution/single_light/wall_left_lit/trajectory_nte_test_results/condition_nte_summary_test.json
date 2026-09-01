@@ -1,0 +1,10 @@
+{
+  "factor": "light_source_distribution",
+  "condition": "light_source_distribution/single_light/wall_left_lit",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\light_source_distribution\\single_light\\wall_left_lit",
+  "num_videos": 10,
+  "mean_nte": 0.4023005962371826,
+  "std_nte": 0.08559285255642513,
+  "min_nte": 0.3117186725139618,
+  "max_nte": 0.49312829971313477
+}

@@ -1,0 +1,5 @@
+condition,detected,total,rate,mean_snr_db
+template/clockwise_template,,,,
+template/counterclockwise_template,,,,
+template/old_template,,,,
+trajectory_test,,,,

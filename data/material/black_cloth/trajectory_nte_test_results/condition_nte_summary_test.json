@@ -1,0 +1,10 @@
+{
+  "factor": "material",
+  "condition": "material/black_cloth",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\material\\black_cloth",
+  "num_videos": 10,
+  "mean_nte": 0.15190669596195222,
+  "std_nte": 0.023241440626180564,
+  "min_nte": 0.1333029717206955,
+  "max_nte": 0.2110576182603836
+}

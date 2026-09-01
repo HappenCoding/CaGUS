@@ -1,0 +1,10 @@
+{
+  "factor": "layout",
+  "condition": "layout/empty",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\layout\\empty",
+  "num_videos": 10,
+  "mean_nte": 0.1271139547228813,
+  "std_nte": 0.035085825287456136,
+  "min_nte": 0.09486795216798782,
+  "max_nte": 0.20266640186309814
+}

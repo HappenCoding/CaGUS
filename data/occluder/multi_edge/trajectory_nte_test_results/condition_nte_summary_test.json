@@ -1,0 +1,10 @@
+{
+  "factor": "occluder",
+  "condition": "occluder/multi_edge",
+  "directory": "C:\\Users\\happen\\master_project\\mobicomexperiment_data\\occluder\\multi_edge",
+  "num_videos": 10,
+  "mean_nte": 0.1401750013232231,
+  "std_nte": 0.03367481189188718,
+  "min_nte": 0.08042193204164505,
+  "max_nte": 0.20314131677150726
+}
