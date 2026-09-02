@@ -3,8 +3,6 @@
 This repository accompanies the CaGUS experimental artifact for passive sensing beyond the direct field of view. It contains a reviewable subset of the controlled wall-video experiments, the analysis code used to process them, and the resulting condition-level reports.
 
 **Interactive results:** [https://happencoding.github.io/CaGUS/](https://happencoding.github.io/CaGUS/)
-(https://happencoding.github.io/
-https://example.com/CaGUS)
 
 The showcase is the quickest way to inspect representative experimental videos, differential response curves, capability-space summaries, and geometry-conditioned activity examples.
 
