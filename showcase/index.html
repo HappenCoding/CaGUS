@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passive Non-Line-of-Sight Sensing and Capability Space Modeling via Ambient Light Transport</title>
+    <title>Ambient-Light Transport Sensing: Research Showcase</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- OrbitControls for smooth 360° free rotation and damping -->
@@ -64,13 +64,13 @@
         <div class="flex items-center space-x-2.5">
             <div class="w-2.5 h-2.5 rounded-full bg-blue-600"></div>
             <div class="font-semibold text-slate-900 text-sm md:text-base tracking-tight">
-                Ambient Light Transport <span class="text-slate-400 font-normal">|</span> <span class="text-blue-700 font-normal text-xs md:text-sm">Passive NLOS Sensing Research Showcase</span>
+                Ambient Light Transport <span class="text-slate-400 font-normal">|</span> <span class="text-blue-700 font-normal text-xs md:text-sm">Research Showcase</span>
             </div>
         </div>
         <div class="flex space-x-1 text-xs md:text-sm font-medium mt-2 md:mt-0" id="nav-tabs">
-            <a href="#section-overview" class="nav-link px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900 active">1. Overview & Setup</a>
-            <a href="#section-localization" class="nav-link px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900">2. NLOS Localization System</a>
-            <a href="#section-capability" class="nav-link px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900">3. Capability Space Model</a>
+            <a href="#section-overview" class="nav-link px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900 active">1. Overview</a>
+            <a href="#section-localization" class="nav-link px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900">2. Result Examples</a>
+            <a href="#section-capability" class="nav-link px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900">3. Result Visualizations</a>
         </div>
     </div>
 </nav>
@@ -85,11 +85,8 @@
             <span>NON-LINE-OF-SIGHT SENSING</span>
         </div>
         <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-tight mb-2">
-            Passive Non-Line-of-Sight Sensing and Capability Space Modeling via Ambient Light Transport
+            Ambient-Light Transport Sensing: Research Showcase
         </h1>
-        <p class="text-sm md:text-base text-slate-500 max-w-3xl mx-auto font-sans">
-            Continuous Trajectory Tracking and 3D Sensing Boundary Exploration via Secondary Diffuse Light Variations
-        </p>
     </header>
 
     <!-- ========================================================================= -->
@@ -98,8 +95,7 @@
     <section id="section-overview" class="main-card p-6 md:p-7 scroll-mt-20">
         <div class="module-header flex items-center justify-between">
             <div>
-                <h2 class="text-lg md:text-xl font-bold text-slate-900">1. Overview & Experimental Setup</h2>
-                <p class="text-xs text-slate-500 mt-0.5">Physical ambient light transport principles and lab configuration</p>
+                <h2 class="text-lg md:text-xl font-bold text-slate-900">1. Experimental Overview</h2>
             </div>
             <span class="px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded text-xs font-mono border border-slate-200">Section 1</span>
         </div>
@@ -107,54 +103,42 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
             <div class="md:col-span-6">
                 <img src="./assets/room_layout.png" alt="Experimental room layout" class="rounded border border-slate-200 shadow-sm w-full h-auto">
-                <div class="caption mt-2 mb-0">Figure 1: Top view of experimental layout, occluder geometry, and camera Field of View (FOV).</div>
+                <div class="caption mt-2 mb-0">Figure 1: Experimental layout.</div>
             </div>
-            <div class="md:col-span-6 space-y-3.5 text-slate-700 leading-relaxed text-justify text-xs md:text-sm">
-                <p>
-                    <strong>Physical Sensing Principle:</strong> Motion of occluded human subjects or objects within the non-line-of-sight region periodically modulates indirect light transport paths from ambient illumination, casting subtle secondary diffuse reflections onto visible boundary surfaces that remain imperceptible to the naked eye.
-                </p>
-                <p>
-                    <strong>Experimental Configuration:</strong> Experiments are conducted around a conference table measuring <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-800 font-mono">4.85 m × 3.45 m</code>. Human subjects traverse clockwise (CW) or counter-clockwise (CCW) along the perimeter and pause at four distinct corners (L1–L4). The system employs a single passive, fixed-FOV industrial camera pointed at a blank wall, achieving continuous NLOS tracking without active optical or RF emitters.
-                </p>
-            </div>
+            <div class="md:col-span-6"></div>
         </div>
     </section>
 
     <!-- ========================================================================= -->
-    <!-- Section 2: Pillar 1 - Passive NLOS Localization System -->
+    <!-- Section 2: Result examples -->
     <!-- ========================================================================= -->
     <section id="section-localization" class="main-card p-6 md:p-7 scroll-mt-20">
         <div class="module-header flex items-center justify-between">
             <div>
-                <h2 class="text-lg md:text-xl font-bold text-slate-900">2. Passive NLOS Localization System</h2>
-                <p class="text-xs text-slate-500 mt-0.5">From coarse-grained state classification to high-fidelity continuous trajectory tracking</p>
+                <h2 class="text-lg md:text-xl font-bold text-slate-900">2. Representative Result Examples</h2>
             </div>
-            <span class="px-2.5 py-0.5 bg-blue-50 text-blue-700 rounded text-xs font-mono border border-blue-100">Pillar 1: System</span>
+            <span class="px-2.5 py-0.5 bg-blue-50 text-blue-700 rounded text-xs font-mono border border-blue-100">Section 2</span>
         </div>
 
-        <!-- 2.1 Coarse-Grained State Classification -->
+        <!-- 2.1 Sequence results -->
         <div class="mb-8">
             <div class="flex items-center space-x-2 mb-2">
-                <h3 class="text-base font-bold text-slate-800">2.1 Coarse-Grained State Classification (Rough Localization)</h3>
-                <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono">KNN State Machine</span>
+                <h3 class="text-base font-bold text-slate-800">2.1 Sequence Result Comparison</h3>
             </div>
-            <p class="mb-3 text-xs md:text-sm text-slate-600 leading-relaxed">
-                Utilizing a lightweight KNN classifier, the system determines the discrete location state (four stationary corners L1–L4 or four traversal segments) in real time from weak diffuse shadow variations.
-            </p>
 
             <!-- Rough - Clockwise -->
             <div class="sync-block shadow-sm">
                 <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-sm font-bold text-slate-800">Clockwise Classification Test (IMG_0734)</h4>
+                    <h4 class="text-sm font-bold text-slate-800">Sequence A</h4>
                     <button id="btn_rough_cw" class="bg-blue-700 text-white px-4 py-1 rounded text-xs font-medium hover:bg-blue-600 transition shadow-sm">Play Sync Animation</button>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                     <div><div class="font-medium text-slate-700 text-xs mb-1.5">Input Video (FOV)</div><video id="vid_rough_cw" src="./assets/cw_video.mp4" class="video-box h-44 md:h-48 object-cover" preload="metadata" muted playsinline></video></div>
-                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Ground Truth State</div><canvas id="cvs_gt_rough_cw" width="300" height="230" class="canvas-box"></canvas></div>
-                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Predicted State</div><canvas id="cvs_pred_rough_cw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Reference</div><canvas id="cvs_gt_rough_cw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Result</div><canvas id="cvs_pred_rough_cw" width="300" height="230" class="canvas-box"></canvas></div>
                 </div>
                 <div class="mt-4 border-t border-slate-200 pt-2.5">
-                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Timeline State Matching Summary</div>
+                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Temporal Result View</div>
                     <img src="./assets/rough_plot_cw.png" alt="Clockwise Rough localization timeline summary" class="w-full h-auto rounded border border-slate-200 shadow-sm">
                 </div>
             </div>
@@ -162,99 +146,90 @@
             <!-- Rough - Counter-Clockwise -->
             <div class="sync-block shadow-sm">
                 <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-sm font-bold text-slate-800">Counter-Clockwise Classification Test (IMG_0724)</h4>
+                    <h4 class="text-sm font-bold text-slate-800">Sequence B</h4>
                     <button id="btn_rough_ccw" class="bg-blue-700 text-white px-4 py-1 rounded text-xs font-medium hover:bg-blue-600 transition shadow-sm">Play Sync Animation</button>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                     <div><div class="font-medium text-slate-700 text-xs mb-1.5">Input Video (FOV)</div><video id="vid_rough_ccw" src="./assets/ccw_video.mp4" class="video-box h-44 md:h-48 object-cover" preload="metadata" muted playsinline></video></div>
-                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Ground Truth State</div><canvas id="cvs_gt_rough_ccw" width="300" height="230" class="canvas-box"></canvas></div>
-                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Predicted State</div><canvas id="cvs_pred_rough_ccw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Reference</div><canvas id="cvs_gt_rough_ccw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Result</div><canvas id="cvs_pred_rough_ccw" width="300" height="230" class="canvas-box"></canvas></div>
                 </div>
                 <div class="mt-4 border-t border-slate-200 pt-2.5">
-                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Timeline State Matching Summary</div>
+                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Temporal Result View</div>
                     <img src="./assets/rough_plot_ccw.png" alt="Counter-Clockwise Rough localization timeline summary" class="w-full h-auto rounded border border-slate-200 shadow-sm">
                 </div>
             </div>
         </div>
 
-        <!-- 2.2 Fine-Grained Trajectory Tracking -->
+        <!-- 2.2 Trajectory results -->
         <div>
             <div class="flex items-center space-x-2 mb-2">
-                <h3 class="text-base font-bold text-slate-800">2.2 Fine-Grained Continuous Trajectory Tracking</h3>
-                <span class="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-mono">Regression Model & 2D Coordinates</span>
+                <h3 class="text-base font-bold text-slate-800">2.2 Trajectory Result Comparison</h3>
             </div>
-            <p class="mb-3 text-xs md:text-sm text-slate-600 leading-relaxed">
-                Upgraded to continuous regression mapping, the model directly yields continuous physical 2D coordinates (X, Y), reconstructing smooth and accurate human locomotion trajectories.
-            </p>
 
             <!-- Fine - Clockwise -->
             <div class="sync-block shadow-sm">
                 <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-sm font-bold text-slate-800">Clockwise Trajectory Tracking (IMG_0734)</h4>
+                    <h4 class="text-sm font-bold text-slate-800">Sequence A</h4>
                     <button id="btn_cw" class="bg-blue-700 text-white px-4 py-1 rounded text-xs font-medium hover:bg-blue-600 transition shadow-sm">Play Sync Animation</button>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                     <div><div class="font-medium text-slate-700 text-xs mb-1.5">Input Video (FOV)</div><video id="vid_cw" src="./assets/cw_video.mp4" class="video-box h-44 md:h-48 object-cover" preload="metadata" muted playsinline></video></div>
-                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Ground Truth Trajectory</div><canvas id="cvs_gt_cw" width="300" height="230" class="canvas-box"></canvas></div>
-                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Predicted Trajectory</div><canvas id="cvs_pred_cw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Reference</div><canvas id="cvs_gt_cw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Result</div><canvas id="cvs_pred_cw" width="300" height="230" class="canvas-box"></canvas></div>
                 </div>
                 <div class="mt-4 border-t border-slate-200 pt-2.5">
-                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Continuous Tracking Error Analysis & Metrics</div>
-                    <img src="./assets/fine_plot_cw.png" alt="Clockwise Fine-grained tracking error summary" class="w-full h-auto rounded border border-slate-200 shadow-sm bg-white p-2">
+                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Trajectory Comparison</div>
+                    <img src="./assets/fine_plot_cw.png" alt="Sequence A trajectory comparison" class="w-full h-auto rounded border border-slate-200 shadow-sm bg-white p-2">
                 </div>
             </div>
 
             <!-- Fine - Counter-Clockwise -->
             <div class="sync-block shadow-sm">
                 <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-sm font-bold text-slate-800">Counter-Clockwise Trajectory Tracking (IMG_0724)</h4>
+                    <h4 class="text-sm font-bold text-slate-800">Sequence B</h4>
                     <button id="btn_ccw" class="bg-blue-700 text-white px-4 py-1 rounded text-xs font-medium hover:bg-blue-600 transition shadow-sm">Play Sync Animation</button>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                     <div><div class="font-medium text-slate-700 text-xs mb-1.5">Input Video (FOV)</div><video id="vid_ccw" src="./assets/ccw_video.mp4" class="video-box h-44 md:h-48 object-cover" preload="metadata" muted playsinline></video></div>
-                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Ground Truth Trajectory</div><canvas id="cvs_gt_ccw" width="300" height="230" class="canvas-box"></canvas></div>
-                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Predicted Trajectory</div><canvas id="cvs_pred_ccw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-blue-700 text-xs mb-1.5">Reference</div><canvas id="cvs_gt_ccw" width="300" height="230" class="canvas-box"></canvas></div>
+                    <div><div class="font-medium text-red-600 text-xs mb-1.5">Result</div><canvas id="cvs_pred_ccw" width="300" height="230" class="canvas-box"></canvas></div>
                 </div>
                 <div class="mt-4 border-t border-slate-200 pt-2.5">
-                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Continuous Tracking Error Analysis & Metrics</div>
-                    <img src="./assets/fine_plot_ccw.png" alt="Counter-Clockwise Fine-grained tracking error summary" class="w-full h-auto rounded border border-slate-200 shadow-sm bg-white p-2">
+                    <div class="font-medium text-slate-700 text-xs mb-1.5 text-center">Trajectory Comparison</div>
+                    <img src="./assets/fine_plot_ccw.png" alt="Sequence B trajectory comparison" class="w-full h-auto rounded border border-slate-200 shadow-sm bg-white p-2">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ========================================================================= -->
-    <!-- Section 3: Pillar 2 - Multi-Factor Sensing Capability Space Model -->
+    <!-- Section 3: Result visualizations -->
     <!-- ========================================================================= -->
     <section id="section-capability" class="main-card p-6 md:p-7 scroll-mt-20 space-y-6">
         
         <!-- Module Header -->
         <div class="module-header flex flex-wrap items-center justify-between gap-3">
             <div>
-                <h2 class="text-lg md:text-xl font-bold text-slate-900">3. Multi-Factor Sensing Capability Space Model</h2>
-                <p class="text-xs text-slate-500 mt-0.5">3D capability manifold boundaries and discrete sample point cloud governed by coupled geometry, illumination, and materials</p>
+                <h2 class="text-lg md:text-xl font-bold text-slate-900">3. Interactive Result Visualization</h2>
             </div>
             <div class="flex items-center space-x-2">
-                <span class="hidden md:inline px-2.5 py-0.5 bg-emerald-50 text-emerald-700 rounded text-xs font-mono border border-emerald-200">Pillar 2: Theory & Space</span>
+                <span class="hidden md:inline px-2.5 py-0.5 bg-emerald-50 text-emerald-700 rounded text-xs font-mono border border-emerald-200">Section 3</span>
                 <div class="flex space-x-1 text-xs">
-                    <button id="btn_view_interactive" class="px-3 py-1.5 bg-slate-900 text-white rounded font-medium shadow-sm hover:bg-slate-800 transition">3D Point Cloud Lab</button>
-                    <button id="btn_view_static" class="px-3 py-1.5 bg-slate-100 text-slate-700 rounded font-medium hover:bg-slate-200 transition">Publication Figure</button>
+                    <button id="btn_view_interactive" class="px-3 py-1.5 bg-slate-900 text-white rounded font-medium shadow-sm hover:bg-slate-800 transition">Interactive View</button>
+                    <button id="btn_view_static" class="px-3 py-1.5 bg-slate-100 text-slate-700 rounded font-medium hover:bg-slate-200 transition">Static View</button>
                 </div>
             </div>
         </div>
-
-        <p class="text-xs md:text-sm text-slate-700 leading-relaxed text-justify">
-            The operational boundary of passive non-line-of-sight sensing is not a rigid distance cutoff, but rather a multi-dimensional capability manifold governed by the joint coupling of <strong>Transport Geometry</strong>, <strong>Illumination</strong>, and <strong>Surface Materials</strong>. The interactive 3D model below renders the physical space using a <strong>discrete physical sample point cloud</strong> (3,136 sample points) and <strong>dual semi-transparent bounding manifold envelopes</strong>.
-        </p>
 
         <!-- ----------------------------------------------------------------- -->
         <!-- [Row 1]: 3D WebGL Space (720px Height with High-Speed Smooth Zoom) -->
         <!-- ----------------------------------------------------------------- -->
         <div class="w-full">
             <div class="flex flex-wrap items-center justify-between mb-2.5 gap-2">
-                <h3 class="text-sm md:text-base font-bold text-slate-900">3.1 3D Discrete Point Cloud & Sensing Capability Manifold</h3>
+                <h3 class="text-sm md:text-base font-bold text-slate-900">3.1 Interactive Result View</h3>
                 <div class="text-xs text-slate-500 font-mono">
-                    Controls: Left Click + Drag to Orbit / Wheel to Zoom / Click Point to Focus
+                    Controls: Drag to rotate / Wheel to zoom / Click a point to inspect
                 </div>
             </div>
 
@@ -281,15 +256,15 @@
                     <div class="hud-badge text-white px-3.5 py-1.5 rounded-lg text-xs font-mono flex items-center space-x-3.5 shadow pointer-events-auto">
                         <div class="flex items-center space-x-1.5">
                             <span class="w-2 h-2 rounded-full bg-orange-500"></span>
-                            <span class="text-orange-300">X: Transport Geometry (g)</span>
+                            <span class="text-orange-300">Axis X</span>
                         </div>
                         <div class="flex items-center space-x-1.5">
                             <span class="w-2 h-2 rounded-full bg-teal-400"></span>
-                            <span class="text-teal-300">Y: Illumination (i)</span>
+                            <span class="text-teal-300">Axis Y</span>
                         </div>
                         <div class="flex items-center space-x-1.5">
                             <span class="w-2 h-2 rounded-full bg-purple-400"></span>
-                            <span class="text-purple-300">Z: Activity Level (a)</span>
+                            <span class="text-purple-300">Axis Z</span>
                         </div>
                     </div>
                 </div>
@@ -300,12 +275,12 @@
                 <!-- Hover Point Inspector HUD -->
                 <div id="hud_hover_probe" class="absolute top-16 left-4 hud-badge text-white px-3.5 py-2.5 rounded-lg text-xs font-mono space-y-1 shadow-2xl pointer-events-none transition-all duration-150 border-l-2 border-l-emerald-400 max-w-[310px]">
                     <div class="text-[11px] text-slate-400 uppercase tracking-wider flex items-center justify-between">
-                        <span>Selected Point Inspector</span>
+                        <span>Selected Point</span>
                         <span id="probe_badge" class="px-1.5 py-0.2 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-semibold">LIVE POINT</span>
                     </div>
-                    <div class="text-emerald-300 font-semibold text-xs" id="probe_coords">g = 0.50 | i = 0.50 | a = 0.50</div>
-                    <div class="text-amber-300 text-xs" id="probe_value">Capability Score: 52.4% | Transition Void Zone</div>
-                    <div class="text-[11px] text-slate-400" id="probe_desc">3D projection drop lines locked to target sample node</div>
+                    <div class="text-emerald-300 font-semibold text-xs" id="probe_coords">x = 0.50 | y = 0.50 | z = 0.50</div>
+                    <div class="text-amber-300 text-xs" id="probe_value">Value: 52.4%</div>
+                    <div class="text-[11px] text-slate-400" id="probe_desc">Selected sample</div>
                 </div>
 
                 <!-- Right: Viridis Gradient Colorbar -->
@@ -313,7 +288,7 @@
                     <span class="text-[10px] font-mono text-yellow-300 font-bold">1.0</span>
                     <div class="w-3.5 h-44 rounded-sm border border-slate-600" style="background: linear-gradient(to top, #440154, #443a83, #31688e, #21908d, #35b779, #8fd744, #fde725);"></div>
                     <span class="text-[10px] font-mono text-purple-300 font-bold">0.0</span>
-                    <span class="text-[9px] font-mono text-slate-300 mt-1 [writing-mode:vertical-lr] tracking-widest">Scalar C(g,i,a)</span>
+                    <span class="text-[9px] font-mono text-slate-300 mt-1 [writing-mode:vertical-lr] tracking-widest">Value</span>
                 </div>
 
                 <!-- Bottom Floating Control Deck -->
@@ -326,20 +301,20 @@
                         <span class="text-slate-700">|</span>
                         
                         <!-- Canonical Viewpoints -->
-                        <button id="btn_reset_cam" class="px-2.5 py-1 rounded text-xs font-medium bg-emerald-700/40 text-emerald-200 hover:bg-emerald-700/60 transition border border-emerald-600/50" title="Reset to Paper Standard Isometric (Elev 25°, Azim 45°)">
+                        <button id="btn_reset_cam" class="px-2.5 py-1 rounded text-xs font-medium bg-emerald-700/40 text-emerald-200 hover:bg-emerald-700/60 transition border border-emerald-600/50" title="Reset to isometric view">
                             Isometric (20°/45°)
                         </button>
 
-                        <button id="btn_front_view" class="px-2 py-1 rounded text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition" title="Align to Front Orthogonal (g-a Plane)">
-                            Front (g-a)
+                        <button id="btn_front_view" class="px-2 py-1 rounded text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition" title="Front view">
+                            Front
                         </button>
 
-                        <button id="btn_top_view" class="px-2 py-1 rounded text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition" title="Align to Top Orthogonal (g-i Plane)">
-                            Top (g-i)
+                        <button id="btn_top_view" class="px-2 py-1 rounded text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition" title="Top view">
+                            Top
                         </button>
 
-                        <button id="btn_side_view" class="px-2 py-1 rounded text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition hidden md:inline-block" title="Align to Side Orthogonal (i-a Plane)">
-                            Side (i-a)
+                        <button id="btn_side_view" class="px-2 py-1 rounded text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition hidden md:inline-block" title="Side view">
+                            Side
                         </button>
 
                         <span class="text-slate-700">|</span>
@@ -356,113 +331,43 @@
 
             <!-- Mode 2: Static Publication-Quality Vector Render (Toggleable) -->
             <div id="container_static_model" class="hidden w-full bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                <img src="./assets/capability_boundary_model.png" alt="Multi-factor capability space model publication figure" class="w-full h-auto rounded">
+                <img src="./assets/capability_boundary_model.png" alt="Static result visualization" class="w-full h-auto rounded">
             </div>
             
-            <div class="caption mt-2.5 mb-0">Figure 4: 3D discrete sampling point cloud and dual-manifold sensing capability model under ambient light transport (supports 360° spherical orbit, multi-scale zoom, and canonical orthogonal alignments).</div>
+            <div class="caption mt-2.5 mb-0">Figure 4: Interactive result visualization.</div>
         </div>
 
         <!-- ----------------------------------------------------------------- -->
-        <!-- [Row 2]: Sub-Factor SNR Spread Radars -->
+        <!-- [Row 2]: Result Summary Views -->
         <!-- ----------------------------------------------------------------- -->
         <div class="w-full bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
             <div class="flex flex-wrap items-center justify-between border-b border-slate-100 pb-2.5 gap-2">
-                <h3 class="text-sm md:text-base font-bold text-slate-900">3.2 Sub-Factor SNR Spread & Sensitivity Radars</h3>
-                <span class="text-xs text-slate-500 font-mono bg-slate-50 px-2 py-0.5 rounded border border-slate-200">Normalized Sensitivity Spread: max(SNR) &minus; min(SNR)</span>
+                <h3 class="text-sm md:text-base font-bold text-slate-900">3.2 Result Summary Views</h3>
             </div>
 
             <!-- Three Radar Charts Arranged in a Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-center py-1">
-                <!-- 1. Transport Geometry Radar -->
                 <div class="flex flex-col items-center text-center p-3.5 bg-orange-50/30 rounded-lg border border-orange-100">
-                    <div class="text-xs md:text-sm font-bold text-orange-900 mb-0.5">Transport geometry</div>
-                    <p class="text-xs text-slate-500 mb-2">Angular &bull; Layout &bull; Distance</p>
+                    <div class="text-xs md:text-sm font-bold text-orange-900 mb-0.5">Result Group A</div>
                     <svg id="svg_radar_geom" viewBox="-160 -115 320 230" class="w-full max-w-[240px] h-auto overflow-visible"></svg>
-                    <div class="mt-2 text-xs font-mono font-semibold text-orange-800 bg-white px-2.5 py-0.5 rounded shadow-sm border border-orange-200">
-                        Distance (1.000) &gt; Layout (0.386) &gt; Angular (0.281)
-                    </div>
                 </div>
 
-                <!-- 2. Illumination Radar -->
                 <div class="flex flex-col items-center text-center p-3.5 bg-teal-50/30 rounded-lg border border-teal-100">
-                    <div class="text-xs md:text-sm font-bold text-teal-900 mb-0.5">Illumination</div>
-                    <p class="text-xs text-slate-500 mb-2">Intensity &bull; Source Count &bull; Distribution</p>
+                    <div class="text-xs md:text-sm font-bold text-teal-900 mb-0.5">Result Group B</div>
                     <svg id="svg_radar_illum" viewBox="-160 -115 320 230" class="w-full max-w-[240px] h-auto overflow-visible"></svg>
-                    <div class="mt-2 text-xs font-mono font-semibold text-teal-800 bg-white px-2.5 py-0.5 rounded shadow-sm border border-teal-200">
-                        Distribution (1.000) &gt; Intensity (0.662) &gt; Count (0.334)
-                    </div>
                 </div>
 
-                <!-- 3. Materials Disk -->
                 <div class="flex flex-col items-center text-center p-3.5 bg-purple-50/30 rounded-lg border border-purple-100">
-                    <div class="text-xs md:text-sm font-bold text-purple-900 mb-0.5">Materials</div>
-                    <p class="text-xs text-slate-500 mb-2">Reflectance & Contrast Retention (Radius = 0.75)</p>
+                    <div class="text-xs md:text-sm font-bold text-purple-900 mb-0.5">Result Group C</div>
                     <svg id="svg_radar_mat" viewBox="-130 -115 260 230" class="w-full max-w-[200px] h-auto overflow-visible"></svg>
-                    <div class="mt-2 text-xs font-mono font-semibold text-purple-800 bg-white px-2.5 py-0.5 rounded shadow-sm border border-purple-200">
-                        Normalized Sensitivity Radius: 0.750
-                    </div>
                 </div>
-            </div>
-
-            <!-- Mechanism Interpretation Banner -->
-            <div class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-lg border border-slate-200">
-                <strong class="text-slate-900 font-semibold">Physical Mechanism & Sensitivity Interpretation:</strong>
-                The normalized polar radius in each radar chart quantifies the relative contribution of each physical sub-factor to the SNR spread, defined as <span class="font-mono font-semibold text-slate-800 bg-white px-1.5 py-0.5 rounded border border-slate-300 shadow-sm text-xs">max(SNR) &minus; min(SNR)</span>. In Transport Geometry, propagation distance is the primary attenuation factor (<span class="font-mono font-semibold text-slate-800">1.000</span>); in Illumination, spatial source distribution critically dictates shadow contrast clarity (<span class="font-mono font-semibold text-slate-800">1.000</span>); for Materials, a normalized sensitivity radius of <span class="font-mono font-semibold text-slate-800">0.750</span> demonstrates that low-reflectance diffuse surfaces still maintain sufficient transport contrast for robust non-line-of-sight tracking.
-            </div>
-        </div>
-
-        <!-- ----------------------------------------------------------------- -->
-        <!-- [Row 3]: Multi-Factor Detailed Sensitivity Breakdown Cards -->
-        <!-- ----------------------------------------------------------------- -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-            <!-- Geometry Card -->
-            <div class="radar-card p-4 border-t-2" style="border-top-color: #C95A3A;">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="font-bold text-slate-800 text-xs md:text-sm">Transport Geometry</h4>
-                    <span class="text-[11px] px-1.5 py-0.2 rounded font-mono bg-orange-50 text-orange-800 border border-orange-200">Max = Distance</span>
-                </div>
-                <ul class="text-xs text-slate-600 space-y-1 leading-relaxed">
-                    <li>&bull; <strong>Distance (Spatial Span)</strong>: <span class="font-mono font-bold text-slate-900">1.000</span> (Dominant Decay)</li>
-                    <li>&bull; <strong>Layout (Occlusion Structure)</strong>: <span class="font-mono font-bold text-slate-900">0.386</span> (Geometric Constraint)</li>
-                    <li>&bull; <strong>Angular (Motion Angle)</strong>: <span class="font-mono font-bold text-slate-900">0.281</span> (FOV Span)</li>
-                </ul>
-                <p class="text-xs text-slate-500 mt-2.5 border-t border-slate-100 pt-2 leading-relaxed">Distance governs primary path loss, while favorable occlusion structures preserve high-SNR transport pathways and expand the continuous tracking boundary.</p>
-            </div>
-
-            <!-- Illumination Card -->
-            <div class="radar-card p-4 border-t-2" style="border-top-color: #278A79;">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="font-bold text-slate-800 text-xs md:text-sm">Illumination</h4>
-                    <span class="text-[11px] px-1.5 py-0.2 rounded font-mono bg-teal-50 text-teal-800 border border-teal-200">Max = Distribution</span>
-                </div>
-                <ul class="text-xs text-slate-600 space-y-1 leading-relaxed">
-                    <li>&bull; <strong>Distribution (Spatial Layout)</strong>: <span class="font-mono font-bold text-slate-900">1.000</span> (Shadow Contrast)</li>
-                    <li>&bull; <strong>Intensity (Irradiance)</strong>: <span class="font-mono font-bold text-slate-900">0.662</span> (Contrast Gain)</li>
-                    <li>&bull; <strong>Source Count (Multi-source)</strong>: <span class="font-mono font-bold text-slate-900">0.334</span> (Diffuse Multipath)</li>
-                </ul>
-                <p class="text-xs text-slate-500 mt-2.5 border-t border-slate-100 pt-2 leading-relaxed">Source distribution determines shadow boundary sharpness and contrast. Higher intensity extends sensing range, though excessive brightness risks ambient saturation.</p>
-            </div>
-
-            <!-- Materials & Space Card -->
-            <div class="radar-card p-4 border-t-2" style="border-top-color: #7766A6;">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="font-bold text-slate-800 text-xs md:text-sm">Materials & 3D Manifolds</h4>
-                    <span class="text-[11px] px-1.5 py-0.2 rounded font-mono bg-purple-50 text-purple-800 border border-purple-200">Radius = 0.75</span>
-                </div>
-                <ul class="text-xs text-slate-600 space-y-1 leading-relaxed">
-                    <li>&bull; <strong>Materials (Sensitivity)</strong>: <span class="font-mono font-bold text-slate-900">0.750</span> (Broad Robustness)</li>
-                    <li>&bull; <strong>Lower Manifold (Activity)</strong>: <span class="font-mono font-bold text-slate-900">a &le; 0.24 + 0.20 &times; T<sub>low</sub></span></li>
-                    <li>&bull; <strong>Upper Manifold (Tracking)</strong>: <span class="font-mono font-bold text-slate-900">a &ge; 0.76 &minus; 0.20 &times; T<sub>up</sub></span></li>
-                </ul>
-                <p class="text-xs text-slate-500 mt-2.5 border-t border-slate-100 pt-2 leading-relaxed">Even low-reflectance matte materials sustain adequate modulation response; the dual-manifold envelope delimits the high-fidelity operational regime.</p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="text-center py-6 border-t border-slate-200 text-slate-400 text-xs font-mono">
-        <p>Research Showcase for Non-Line-of-Sight Sensing via Ambient Light Transport</p>
-        <p class="mt-0.5">All experimental datasets and 3D capability space parameters strictly conform to the paper specifications.</p>
+        <p>Research Showcase</p>
     </footer>
 
 </div>
@@ -567,7 +472,7 @@
     }
 
     // ==========================================
-    // 2. High-Performance 3D Capability Space (Ultra-Lightweight & Zero-GC)
+    // 2. Interactive 3D visualization
     // ==========================================
     
     const viridisTable = [
@@ -727,24 +632,24 @@
         // 2. 3D Coordinate Arrows & Text Sprites
         const originPoint = new THREE.Vector3(-0.5, -0.5, -0.45);
         
-        // X: Transport Geometry (g)
+        // X axis
         const arrowX = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), originPoint, 1.28, 0xf97316, 0.14, 0.08);
         rootGroup.add(arrowX);
-        const labelX = create3DTextSprite("Transport Geometry (g)", "#fb923c", "rgba(15, 23, 42, 0.9)", "#f97316");
+        const labelX = create3DTextSprite("Axis X", "#fb923c", "rgba(15, 23, 42, 0.9)", "#f97316");
         labelX.position.set(0.85, -0.5, -0.45);
         rootGroup.add(labelX);
 
-        // Y: Illumination (i)
+        // Y axis
         const arrowY = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), originPoint, 1.28, 0x14b8a6, 0.14, 0.08);
         rootGroup.add(arrowY);
-        const labelY = create3DTextSprite("Illumination (i)", "#2dd4bf", "rgba(15, 23, 42, 0.9)", "#14b8a6");
+        const labelY = create3DTextSprite("Axis Y", "#2dd4bf", "rgba(15, 23, 42, 0.9)", "#14b8a6");
         labelY.position.set(-0.5, 0.85, -0.45);
         rootGroup.add(labelY);
 
-        // Z: Activity Level (a)
+        // Z axis
         const arrowZ = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), originPoint, 1.20, 0xa855f7, 0.14, 0.08);
         rootGroup.add(arrowZ);
-        const labelZ = create3DTextSprite("Activity Level (a)", "#c084fc", "rgba(15, 23, 42, 0.9)", "#a855f7");
+        const labelZ = create3DTextSprite("Axis Z", "#c084fc", "rgba(15, 23, 42, 0.9)", "#a855f7");
         labelZ.position.set(-0.5, -0.5, 0.72);
         rootGroup.add(labelZ);
 
@@ -837,7 +742,7 @@
         const pointCloud = new THREE.Points(pointGeom, pointMat);
         rootGroup.add(pointCloud);
 
-        // 5. Dual Semi-Transparent Manifold Envelopes (Lightweight Lambert for maximum 120fps smoothness)
+        // 5. Semi-transparent display surfaces
         function buildManifoldShell(isUpper) {
             const geom = new THREE.BufferGeometry();
             const pos = new Float32Array((N + 1) * (N + 1) * 3);
@@ -1118,27 +1023,27 @@
                     pY[3] = ptData.curX; pY[4] = 0.5; pY[5] = ptData.curZ;
                     lineToYPlane.geometry.attributes.position.needsUpdate = true;
 
-                    probeCoords.innerText = `g = ${ptData.g.toFixed(2)} | i = ${ptData.i.toFixed(2)} | a = ${ptData.a.toFixed(2)}`;
+                    probeCoords.innerText = `x = ${ptData.g.toFixed(2)} | y = ${ptData.i.toFixed(2)} | z = ${ptData.a.toFixed(2)}`;
                     const scorePct = (ptData.score * 100).toFixed(1);
 
                     if (ptData.a > 0.65) {
-                        probeVal.innerText = `Capability Score: ${scorePct}% | High-Accuracy Zone`;
+                        probeVal.innerText = `Value: ${scorePct}%`;
                         probeVal.className = "text-emerald-300 font-semibold text-xs";
-                        probeBadge.innerText = "UPPER MANIFOLD";
+                        probeBadge.innerText = "SAMPLE A";
                         probeBadge.className = "px-1.5 py-0.2 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-semibold";
-                        probeDesc.innerText = `Click point to zoom focus | Drag to orbit in 360°`;
+                        probeDesc.innerText = `Click a point to focus | Drag to rotate`;
                     } else if (ptData.a < 0.35) {
-                        probeVal.innerText = `Capability Score: ${scorePct}% | Activity Detection Zone`;
+                        probeVal.innerText = `Value: ${scorePct}%`;
                         probeVal.className = "text-blue-300 font-semibold text-xs";
-                        probeBadge.innerText = "LOWER MANIFOLD";
+                        probeBadge.innerText = "SAMPLE B";
                         probeBadge.className = "px-1.5 py-0.2 rounded text-[10px] bg-blue-500/20 text-blue-300 font-semibold";
-                        probeDesc.innerText = `Click point to zoom focus | Drag to orbit in 360°`;
+                        probeDesc.innerText = `Click a point to focus | Drag to rotate`;
                     } else {
-                        probeVal.innerText = `Capability Score: ${scorePct}% | Transition Void Zone`;
+                        probeVal.innerText = `Value: ${scorePct}%`;
                         probeVal.className = "text-amber-300 font-semibold text-xs";
-                        probeBadge.innerText = "CUTAWAY VOID";
+                        probeBadge.innerText = "SAMPLE C";
                         probeBadge.className = "px-1.5 py-0.2 rounded text-[10px] bg-amber-500/20 text-amber-300 font-semibold";
-                        probeDesc.innerText = `Constrained by occlusion geometry or ambient multipath`;
+                        probeDesc.innerText = `Click a point to focus | Drag to rotate`;
                     }
                 }
             }
@@ -1359,7 +1264,7 @@
 
         const diskRad = radiusRatio * maxRadius;
         content += `<circle cx="0" cy="0" r="${diskRad}" fill="${color}" fill-opacity="0.28" stroke="${color}" stroke-width="2.2" />`;
-        content += `<text x="0" y="4" font-size="11" font-weight="bold" fill="${color}" text-anchor="middle" font-family="monospace">R = 0.750</text>`;
+        content += `<text x="0" y="4" font-size="11" font-weight="bold" fill="${color}" text-anchor="middle" font-family="monospace">Summary</text>`;
 
         svg.innerHTML = content;
     }
@@ -1375,8 +1280,8 @@
         setupController('vid_ccw', 'btn_ccw', 'cvs_gt_ccw', 'cvs_pred_ccw', 'CCW', false);
 
         // Radar Charts
-        drawSvgRadar('svg_radar_geom', ['Angular', 'Layout', 'Distance'], [0.281303, 0.386268, 1.0], '#C95A3A');
-        drawSvgRadar('svg_radar_illum', ['Intensity', 'Source count', 'Source\ndistribution'], [0.662190, 0.334237, 1.0], '#278A79');
+        drawSvgRadar('svg_radar_geom', ['Group 1', 'Group 2', 'Group 3'], [0.281303, 0.386268, 1.0], '#C95A3A');
+        drawSvgRadar('svg_radar_illum', ['Group 1', 'Group 2', 'Group 3'], [0.662190, 0.334237, 1.0], '#278A79');
         drawSvgMaterialDisk('svg_radar_mat', '#7766A6', 0.75);
 
         // 3D Scene Initialization
