@@ -1,6 +1,6 @@
-# CaGUS: Ambient-Light Transport Sensing Artifact
+# CaRGUS: Ambient-Light Transport Sensing Artifact
 
-This repository accompanies the CaGUS experimental artifact for passive sensing beyond the direct field of view. It contains a reviewable subset of the controlled wall-video experiments, the analysis code used to process them, and the resulting condition-level reports.
+This repository accompanies the CaRGUS experimental artifact for passive sensing beyond the direct field of view. It contains a reviewable subset of the controlled wall-video experiments, the analysis code used to process them, and the resulting condition-level reports.
 
 **Interactive results:** https://anonymous.4open.science/w/CaGUS-6EAE/showcase/index.html
 
